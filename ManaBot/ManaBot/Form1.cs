@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,10 @@ namespace ManaBot
         public static char CommandChar = '!';
         TwitchClient StreamClient;
         TwitchClient BotClient;
+        #endregion
+
+        #region Database
+        SQLiteConnection dbCmd;
         #endregion
 
         #region Deepbot Settings
@@ -103,6 +108,28 @@ namespace ManaBot
             if (!File.Exists(FilesDir + "config.xml"))
             {
                 UpdateXmlSettings();
+            }
+            if(!File.Exists(FilesDir + "commands.sqlite"))
+            {
+                /* Permission Levels
+                 * 1 = Viewer
+                 * 2 = Subscriber
+                 * 3 = Moderator
+                 * 4 = Editor
+                 * 5 = Streamer
+                 */
+                SQLiteConnection.CreateFile(FilesDir + "commands.sqlite");
+                dbCmd = new SQLiteConnection("Data Source="  + FilesDir  + "commands.sqlite;Version=3;");
+                dbCmd.Open();
+                string sql = "CREATE TABLE `commandlist` (" +
+	                            "`Commands`	TEXT, "+
+	                            "`PermLevel`	INTEGER," +
+	                            "`Message`	TEXT, " + 
+	                            "PRIMARY KEY(`Commands`)"+
+                            ")";
+                SQLiteCommand dbc = new SQLiteCommand(sql, dbCmd);
+                dbc.ExecuteNonQuery();
+                dbCmd.Close();
             }
             LoadXmlSettings();
             UpdateTextBoxes();
