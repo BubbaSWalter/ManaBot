@@ -1,0 +1,85 @@
+﻿body {
+    font-family: 'Century Schoolbook';
+    font-size: 24px;
+    background: #000;
+    color: #fff;
+    margin: 0;
+}
+
+.username {
+    color: #4cff00;
+    display: inline;
+}
+
+.message {
+    color: #00ffef;
+    display: inline;
+}
+
+.moderator {
+    background-color: #34ae0a;
+    background-image: url(http://www-cdn.jtvnw.net/images/xarth/badge_mod.svg);
+    background-size: 100%;
+}
+
+.subscriber {
+    background-color: #34ae0a;
+    background-image: url(https://static-cdn.jtvnw.net/badges/v1/5d9f2208-5dd8-11e7-8513-2ff4adfae661/3);
+    background-size: 100%;
+}
+
+.caster {
+    background-color: #e71818;
+    background-image: url(http://www-cdn.jtvnw.net/images/xarth/badge_broadcaster.svg);
+    background-size: 100%;
+}
+
+.staff {
+    background-color: #200f33;
+    background-image: url(http://www-cdn.jtvnw.net/images/xarth/badge_staff.svg);
+    background-size: 100%;
+}
+
+
+.admin {
+    background-color: #faaf19;
+    background-image: url(http://www-cdn.jtvnw.net/images/xarth/badge_admin.svg);
+    background-size: 100%;
+}
+
+.global_mod {
+    background-color: #0C6F20;
+    background-image: url(http://www-cdn.jtvnw.net/images/xarth/badge_globalmod.svg);
+    background-size: 100%;
+}
+
+.tag {
+    display: inline-block;
+    text-indent: 21px;
+    background-position: 0 center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: bottom;
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    margin-right: 3px;
+    margin-bottom: -1px;
+    text-indent: -9999px;
+    border-radius: 2px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    overflow: hidden;
+}
+
+.chatline {
+    padding: 2px 5px 3px 5px;
+    margin-right: -10px;
+    line-height: 22px;
+    word-wrap: break-word;
+    border-bottom: 1px solid #6f6f6f;
+}
+
+    .chatline:nth-child(2n) {
+        background: #2c2c2c;
+    }
