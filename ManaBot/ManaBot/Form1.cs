@@ -9,6 +9,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.UI;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -45,6 +47,7 @@ namespace ManaBot
 
         #region Database
         SQLiteConnection dbCmd;
+        string Commandsfile = FilesDir + "commands.sqlite";
         #endregion
 
         #region Deepbot Settings
@@ -53,8 +56,8 @@ namespace ManaBot
         #endregion
 
         #region Twitch API RESTRICTED
-        static string TwitchClientID = null;
-        static string TwitchToken = null;
+        static string TwitchClientID = TopSecret.ClientID;
+        static string TwitchToken = TopSecret.TwitchAuthToken;
         #endregion
 
         #region Currency Settings
@@ -130,10 +133,15 @@ namespace ManaBot
                 SQLiteCommand dbc = new SQLiteCommand(sql, dbCmd);
                 dbc.ExecuteNonQuery();
                 dbCmd.Close();
+
+
+
             }
             LoadXmlSettings();
             UpdateTextBoxes();
             TwitchConnect();
+
+
         }
         #endregion
 
@@ -227,6 +235,10 @@ namespace ManaBot
             }
         }
 
+
+
+
+        
 
     }
 

@@ -40,6 +40,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tbDeepbotIp = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbCommandChar = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.tbChannel = new System.Windows.Forms.TextBox();
             this.tbBotOauth = new System.Windows.Forms.MaskedTextBox();
@@ -51,7 +52,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.tbCommandChar = new System.Windows.Forms.TextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scChatting)).BeginInit();
@@ -69,6 +70,7 @@
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -132,7 +134,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(976, 535);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Settings Tab";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // groupBox2
@@ -200,6 +202,13 @@
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Twitch Settings";
+            // 
+            // tbCommandChar
+            // 
+            this.tbCommandChar.Location = new System.Drawing.Point(98, 152);
+            this.tbCommandChar.Name = "tbCommandChar";
+            this.tbCommandChar.Size = new System.Drawing.Size(100, 20);
+            this.tbCommandChar.TabIndex = 8;
             // 
             // label7
             // 
@@ -293,12 +302,14 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "StreamerOauth: ";
             // 
-            // tbCommandChar
+            // tabPage3
             // 
-            this.tbCommandChar.Location = new System.Drawing.Point(98, 152);
-            this.tbCommandChar.Name = "tbCommandChar";
-            this.tbCommandChar.Size = new System.Drawing.Size(100, 20);
-            this.tbCommandChar.TabIndex = 8;
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(976, 535);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Commands";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -355,6 +366,7 @@
         private System.Windows.Forms.TextBox tbDeepbotIp;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tbCommandChar;
+        private System.Windows.Forms.TabPage tabPage3;
     }
 }
 
