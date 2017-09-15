@@ -27,7 +27,7 @@ using TwitchLib.Events.Client;
 
 namespace ManaBot
 {
-    public partial class Form1 : Form
+    public partial class ManaBot : Form
     {
         #region Variables
         #region Web Browsers
@@ -35,11 +35,11 @@ namespace ManaBot
         #endregion
 
         #region Twitch Settings
-        static string StreamerName = "StreamerName";
-        static string StreamerOAuth = "StreamerOauth";
-        static string BotName = "BotName";
-        static string BotOauth = "BotOauth";
-        static string Channel = "Channel";
+        public static string StreamerName = "StreamerName";
+        public static string StreamerOAuth = "StreamerOauth";
+        public static string BotName = "BotName";
+        public static string BotOauth = "BotOauth";
+        public static string Channel = "Channel";
         public static char CommandChar = '!';
         TwitchClient StreamClient;
         TwitchClient BotClient;
@@ -80,7 +80,7 @@ namespace ManaBot
         #endregion
 
         #region Forms
-        public Form1()
+        public ManaBot()
         {
             InitializeComponent();
             // Start the browser after initialize global component

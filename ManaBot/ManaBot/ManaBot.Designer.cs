@@ -1,6 +1,6 @@
 ﻿namespace ManaBot
 {
-    partial class Form1
+    partial class ManaBot
     {
         /// <summary>
         /// Required designer variable.
