@@ -34,6 +34,9 @@
             this.scChat = new System.Windows.Forms.SplitContainer();
             this.lbViewerList = new System.Windows.Forms.ListBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.tbCheckCommandRep = new System.Windows.Forms.RichTextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tbDeepbotApi = new System.Windows.Forms.TextBox();
@@ -62,6 +65,7 @@
             this.scChat.Panel2.SuspendLayout();
             this.scChat.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -127,6 +131,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.groupBox3);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
@@ -136,6 +141,34 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Settings Tab";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.tbCheckCommandRep);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Location = new System.Drawing.Point(507, 6);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(461, 343);
+            this.groupBox3.TabIndex = 9;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "groupBox3";
+            // 
+            // tbCheckCommandRep
+            // 
+            this.tbCheckCommandRep.Location = new System.Drawing.Point(18, 229);
+            this.tbCheckCommandRep.Name = "tbCheckCommandRep";
+            this.tbCheckCommandRep.Size = new System.Drawing.Size(449, 96);
+            this.tbCheckCommandRep.TabIndex = 7;
+            this.tbCheckCommandRep.Text = "";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(18, 206);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(167, 13);
+            this.label8.TabIndex = 8;
+            this.label8.Text = "Response to the Points Command";
             // 
             // groupBox2
             // 
@@ -311,7 +344,7 @@
             this.tabPage3.Text = "Commands";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // Form1
+            // ManaBot
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -320,7 +353,7 @@
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximumSize = new System.Drawing.Size(1000, 600);
-            this.Name = "Form1";
+            this.Name = "ManaBot";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -333,6 +366,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.scChat)).EndInit();
             this.scChat.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -367,6 +402,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tbCommandChar;
         private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RichTextBox tbCheckCommandRep;
+        private System.Windows.Forms.Label label8;
     }
 }
 

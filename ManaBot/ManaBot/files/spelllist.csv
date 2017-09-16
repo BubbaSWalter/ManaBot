@@ -1,0 +1,217 @@
+﻿1,Learning First Spell,1
+2,Chill Touch,2
+3,Fire Bolt,3
+4,Minor Illusion,4
+5,Mending,5
+6,*Acid Splash,6
+7,Mage Hand,7
+8,True Strike,8
+9,Poison Spray,9
+10,Prestidigitation,10
+11,Ray of Frost,12
+12,Blade Ward,14
+13,Light,16
+14,*Friends,18
+15,Dancing Lights,20
+16,Shocking Grasp,22
+17,Message,24
+18,Chromatic Orb,26
+19,Tenser's Floating Disk,28
+20,Expeditious Retreat,30
+21,Comprehend Languages,32
+22,Magic Missle,34
+23,False Life,36
+24,Feather Fall,38
+25,Illusory Script,40
+26,Charm Person,42
+27,Fog Cloud,44
+28,Protection from Good and Evil,46
+29,Find Familiar,48
+30,Sleep,50
+31,Burning Hands,52
+32,Grease,54
+33,Identify,59
+34,Tasha's Hideous Laughter,64
+35,Unseen Servant,69
+36,*Disguise Self,74
+37,Color Spray,79
+38,Alarm,84
+39,Mage Armor,89
+40,Longstrider,94
+41,Thunderwave,99
+42,Detect Magic,104
+43,Ray of Sickness,109
+44,Silent Image,114
+45,Jump,119
+46,Shield,124
+47,Witch Bolt,129
+48,Mirror Image,134
+49,Alter Self,139
+50,Invisibility,144
+51,Gentle Repose,149
+52,Suggestion,154
+53,Levitate,159
+54,Spider Climb,164
+55,Cloud of DAggers,169
+56,Web,174
+57,Darkvision,179
+58,Enlarge/Reduce,184
+59,Melf's Acid Arrow,194
+60,Gust of Wind,204
+61,Darkness,214
+62,Detect Thoughts,224
+63,Arcane Lock,234
+64,Blindness/Deafness,244
+65,Magic Weapon,254
+66,Misty Step,264
+67,Knock,274
+68,Crown of Madness,284
+69,Continual Flame,294
+70,Nystul's Magic Aura,304
+71,Phantasmal Force,314
+72,Blur,324
+73,Scorching Ray,334
+74,Rope Trick,344
+75,Ray of Enfeeblement,354
+76,Locate Object,364
+77,See Invisibility,374
+78,Magic Mouth,384
+79,Hold Person,394
+80,Flaming Sphere,404
+81,Shatter,424
+82,Counterspell,444
+83,Lightning Bolt,464
+84,Phantom Steed,484
+85,Glyph of Warding,504
+86,Sleet Storm,524
+87,Remove Curse,544
+88,Fear,564
+89,Sending,584
+90,Stinking Cloud,604
+91,Nondetection,624
+92,Slow,644
+93,Gaseous Form,664
+94,Fireball,684
+95,Bestow Curse,704
+96,Animate Dead,724
+97,Clairvoyance,744
+98,Protection from Energy,764
+99,Dispel Magic,784
+100,Major Image,804
+101,Haste,824
+102,Blink,844
+103,Vampiric Touch,864
+104,Leomund's Tiny Hut,884
+105,Feign Death,904
+106,Hypnotic Pattern,924
+107,Water Breathing,944
+108,Tongues,964
+109,Magic Circle,984
+110,Fly,1004
+111,Ice Storm,1024
+112,Fabricate,1044
+113,Fire Shield,1064
+114,Mordenkainen's Private Sanctum,1084
+115,Stoneskin,1104
+116,Mordenkainen's Faithful Hound,1124
+117,Evard's Black Tentacles,1144
+118,Leomund's  Secret Chest,1164
+119,Dimension Door,1184
+120,Greater Invisibility,1204
+121,Stone  Shape,1224
+122,Phantasmal Killer,1244
+123,Otiluke's Reilient Sphere,1264
+124,Polymorph,1284
+125,Banishment,1304
+126,Blight,1324
+127,Arcane Eye,1344
+128,Conjure Minor Elementals,1364
+129,Locate Creature,1384
+130,Confusion,1404
+131,Control Water,1424
+132,Wall of Fire,1444
+133,Hallucinatory Terrain,1474
+134,Geas,1504
+135,Wall of Stone,1534
+136,Dream,1564
+137,Wall of Force,1594
+138,Dominate Person,1624
+139,Legend Lore,1654
+140,Scrying,1684
+141,Conjure Elemental,1714
+142,Creation,1744
+143,Seeming,1774
+144,Modify Memory,1804
+145,Teleportation Circle,1834
+146,Cone of Cold,1864
+147,Cloud kill,1894
+148,Passwall,1924
+149,Hold Monster,1954
+150,Animate Objects,1984
+151,Bigby's Hand,2014
+152,Telekinesis,2044
+153,Contact Other Plane,2074
+154,Planar Binding,2104
+155,Mislead,2134
+156,Rary's Telepathic Bond,2184
+157,Guards and Wards,2234
+158,Circle of Death,2284
+159,Eyebite,2334
+160,Arcane Gate,2384
+161,Drawmij's Instant Summons,2434
+162,Move Earth,2484
+163,Wall of Ice,2534
+164,Programmed Illusion,2584
+165,Magic Jar,2634
+166,Globe of Invulnerability,2684
+167,Mass Suggestion,2734
+168,Otiluke's Freezing Sphere,2784
+169,Flesh to Stone,2834
+170,Disintegrate,2884
+171,True Seeing,2934
+172,Create Undead,2984
+173,Otto's Irresistible Dance,3034
+174,Contingency,3084
+175,Sunbeam,3134
+176,Chain Lightning,3184
+177,Sequester,3234
+178,Delayed Blast Fireball,3284
+179,Project Image,3334
+180,Mirage Arcane,3384
+181,Finger of Death (*DeathWater),3434
+182,Symbol,3484
+183,Mordenkainen's Sword,3534
+184,Teleportation Circle,3584
+185,Simulacrum,3634
+186,Mordenkainen's Magnificent Mansion,3684
+187,Etherealness,3734
+188,Plane Shift,3784
+189,Reverse  Gravity,3834
+190,Forcecage,3884
+191,Prismatic Spray,3934
+192,Incendiary Cloud,3984
+193,Trap the Soul,4034
+194,Antimagic Field,4084
+195,Maze,4134
+196,Mind Blank,4184
+197,Antipathy/Aympathy,4234
+198,Clone,4284
+199,Feeblemind,4334
+200,Telepathy,4384
+201,Power Word Stun,4434
+202,Control Weather,4484
+203,Demiplane,4534
+204,Dominate Monster,4584
+205,Sunburst,4634
+206,Imprisonment,4684
+207,Weird,4734
+208,Shapechange,4784
+209,Wish,4834
+210,Time Stop,4884
+211,True Polymorph,4934
+212,Foresight,4984
+213,Power Word Kill,5034
+214,Gate,5084
+215,Meteor Swarm,5134
+216,Prismatic Wall,5184
+217,Astral Projection,5234

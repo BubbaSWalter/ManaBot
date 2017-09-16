@@ -9,16 +9,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.UI;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-
-//CefSharp Includes includes
+using System.Web.UI;
 using CefSharp;
 using CefSharp.WinForms;
-
-//Twitch Includes
 using TwitchLib;
 using TwitchLib.Models.Client;
 using TwitchLib.Events.Client;
@@ -31,8 +26,11 @@ namespace ManaBot
     {
         #region Variables
         #region Web Browsers
-        public ChromiumWebBrowser chatBrowser;
+        public static ChromiumWebBrowser chatBrowser;
         #endregion
+
+
+
 
         #region Twitch Settings
         public static string StreamerName = "StreamerName";
@@ -41,8 +39,7 @@ namespace ManaBot
         public static string BotOauth = "BotOauth";
         public static string Channel = "Channel";
         public static char CommandChar = '!';
-        TwitchClient StreamClient;
-        TwitchClient BotClient;
+
         #endregion
 
         #region Database
@@ -55,10 +52,6 @@ namespace ManaBot
         public static string DeepbotApi = "Deepbot API KEY";
         #endregion
 
-        #region Twitch API RESTRICTED
-        static string TwitchClientID = TopSecret.ClientID;
-        static string TwitchToken = TopSecret.TwitchAuthToken;
-        #endregion
 
         #region Currency Settings
         public static string Mod1 = "Mod Level 1";
@@ -69,6 +62,10 @@ namespace ManaBot
         public static string NormalViewer = "Viewer";
         public static string Currency = "points";
         public static string CheckCommand = "points";
+        public static string CheckCommandRep = "$user has $points mana. " +
+            "They are curenntly a level $userranknum mage and the last spell they learned was $userrank. " +
+            "They have been at The Apprenticeship for $hours and " +
+            "they are currently a $title";
         #endregion
 
         #region Directory Settings;
@@ -139,10 +136,11 @@ namespace ManaBot
             }
             LoadXmlSettings();
             UpdateTextBoxes();
-            TwitchConnect();
-
+            TwitchConnect.TwitchConnection();
+            Console.WriteLine(CheckCommandRep);
 
         }
+        
         #endregion
 
         #region Xml Settings
@@ -168,6 +166,7 @@ namespace ManaBot
             XmlConfigUpdate.Vip3 = Sub3;
             XmlConfigUpdate.NormalViewer = NormalViewer;
             XmlConfigUpdate.CheckCommand = CheckCommand;
+            XmlConfigUpdate.CheckCommandRep = CheckCommandRep;
 
             XmlConfig.Serialize(FilesDir + "config.xml", XmlConfigUpdate);
         }
@@ -181,7 +180,18 @@ namespace ManaBot
             BotOauth = XMLConfigLoad.BotOauth;
             Channel = XMLConfigLoad.Channel;
             CommandChar = XMLConfigLoad.CommandChar;
-            Console.WriteLine(XMLConfigLoad.CommandChar);
+            CheckCommand = XMLConfigLoad.CheckCommand;
+            CheckCommandRep = XMLConfigLoad.CheckCommandRep;
+            Mod1 = XMLConfigLoad.Mod1;
+            Mod2 = XMLConfigLoad.Mod2;
+            Sub1 = XMLConfigLoad.Vip1;
+            Sub2 = XMLConfigLoad.Vip2;
+            Sub3 = XMLConfigLoad.Vip3;
+            NormalViewer = XMLConfigLoad.NormalViewer;
+            DeepbotApi = XMLConfigLoad.DeepBotAPI;
+            DeepbotIp = XMLConfigLoad.DeepBotIp;
+            
+
         }
 
         private void UpdateTextBoxes()
@@ -197,46 +207,13 @@ namespace ManaBot
             tbDeepbotApi.Text = DeepbotApi;
             tbDeepbotIp.Text = DeepbotIp;
             //Comannds Settings
-            tbCommandChar.Text = Convert.ToString(CommandChar); 
+            tbCommandChar.Text = Convert.ToString(CommandChar);
+
+            //Points Settings
+            tbCheckCommandRep.Text = CheckCommandRep;
+            
         }
         #endregion
-
-        private void TwitchConnect()
-        {
-            ConnectionCredentials StreamCreds = new ConnectionCredentials(StreamerName, StreamerOAuth);
-            ConnectionCredentials BotCreds = new ConnectionCredentials(BotName, BotOauth);
-            StreamClient = new TwitchClient(StreamCreds, Channel);
-            BotClient = new TwitchClient(BotCreds, Channel);
-            BotClient.OnJoinedChannel += BotJoinedChannel;
-            BotClient.OnMessageReceived += BotReciviedMessage;
-            BotClient.OnChatCommandReceived += BotCommandRecivied;
-            BotClient.AddChatCommandIdentifier(CommandChar);
-            BotClient.AddWhisperCommandIdentifier(CommandChar);
-            StreamClient.Connect();
-            BotClient.Connect();
-        }
-
-        private void BotJoinedChannel (object sender,OnJoinedChannelArgs e)
-        {
-            BotClient.SendMessage("/me Merlin_Bot is here");
-        }
-
-        private void BotReciviedMessage(object sender, OnMessageReceivedArgs e)
-        {
-
-        }
-        private void BotCommandRecivied(object sender, OnChatCommandReceivedArgs e)
-        {
-
-            if (e.Command.Command.ToLower().Contains("test"))
-            {
-                BotClient.SendMessage("This is a test of the command system. " + 
-                    "If this was an actual command you would see an actual response Kappa");
-            }
-        }
-
-
-
 
         
 
@@ -262,6 +239,7 @@ namespace ManaBot
         string _NormalViewer;
         string _CurrencyName;
         string _CheckCommand;
+        string _CheckCommandRep;
         #endregion
 
         #region Deepbot Vars
@@ -381,6 +359,11 @@ namespace ManaBot
         {
             get { return _CheckCommand; }
             set { _CheckCommand = value; }
+        }
+        public string CheckCommandRep
+        {
+            get { return _CheckCommandRep; }
+            set { _CheckCommandRep = value; }
         }
         #endregion
 
