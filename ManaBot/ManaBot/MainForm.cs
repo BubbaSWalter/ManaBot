@@ -22,17 +22,14 @@ using TwitchLib.Events.Client;
 
 namespace ManaBot
 {
-    public partial class ManaBot : Form
+    public partial class MainForm : Form
     {
         #region Variables
         #region Web Browsers
         public static ChromiumWebBrowser chatBrowser;
         #endregion
 
-
-
-
-        #region Twitch Settings
+       #region Twitch Settings
         public static string StreamerName = "StreamerName";
         public static string StreamerOAuth = "StreamerOauth";
         public static string BotName = "BotName";
@@ -77,18 +74,23 @@ namespace ManaBot
         #endregion
 
         #region Forms
-        public ManaBot()
+        public MainForm()
         {
             InitializeComponent();
             // Start the browser after initialize global component
             InitializeChat();
+ 
         }
 
         public void InitializeChat()
         {
             CefSettings settings = new CefSettings();
             // Initialize cef with the provided settings
-            Cef.Initialize(settings);
+            if (!Cef.IsInitialized)
+            {
+                Cef.Initialize(settings);
+            }
+            
             // Create a browser component
             chatBrowser = new ChromiumWebBrowser(WebDir + "chat.html");
             //chatBrowser.LoadString();
@@ -138,6 +140,8 @@ namespace ManaBot
             UpdateTextBoxes();
             TwitchConnect.TwitchConnection();
             Console.WriteLine(CheckCommandRep);
+            TwitchConnect Twitcher = new TwitchConnect();
+            cbMessageSender.SelectedIndex = 0;
 
         }
         
@@ -213,11 +217,46 @@ namespace ManaBot
             tbCheckCommandRep.Text = CheckCommandRep;
             
         }
+
+
+
         #endregion
 
-        
+        private void ChatMessageBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SendMessageFun();
+            }
+        }
+        private void SendMessageFun()
+        {
+            string message = tbChatMessage.Text;
+            if(cbMessageSender.SelectedIndex == 0)
+            {
+                TwitchConnect.StreamClient.SendMessage(message);
 
+                //TwitchConnect.WebChat(TwitchConnect.StreamClient.TwitchUsername, "broadcaster", true, true, message);
+            }
+            else
+            {
+                TwitchConnect.BotClient.SendMessage(message);
+            }
+
+
+            tbChatMessage.Text = "";
+        }
+
+        private void SendMessage_Click(object sender, EventArgs e)
+        {
+            SendMessageFun();
+
+
+
+
+        }
     }
+
 
     public class XmlConfig
     {

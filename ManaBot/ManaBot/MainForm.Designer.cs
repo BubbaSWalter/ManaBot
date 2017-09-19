@@ -1,6 +1,6 @@
 ﻿namespace ManaBot
 {
-    partial class ManaBot
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,11 +29,14 @@
         private void InitializeComponent()
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.ChatTab = new System.Windows.Forms.TabPage();
             this.scChatting = new System.Windows.Forms.SplitContainer();
             this.scChat = new System.Windows.Forms.SplitContainer();
             this.lbViewerList = new System.Windows.Forms.ListBox();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.SendMessage = new System.Windows.Forms.Button();
+            this.tbChatMessage = new System.Windows.Forms.TextBox();
+            this.cbMessageSender = new System.Windows.Forms.ComboBox();
+            this.SettingsTab = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.tbCheckCommandRep = new System.Windows.Forms.RichTextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -55,26 +58,47 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.CommandsTab = new System.Windows.Forms.TabPage();
+            this.UserTab = new System.Windows.Forms.TabPage();
+            this.InteractionTab = new System.Windows.Forms.TabPage();
+            this.tabControl2 = new System.Windows.Forms.TabControl();
+            this.QueueTab = new System.Windows.Forms.TabPage();
+            this.MiniGameTab = new System.Windows.Forms.TabPage();
+            this.tabControl3 = new System.Windows.Forms.TabControl();
+            this.HeistTab = new System.Windows.Forms.TabPage();
+            this.CrystalBallsTab = new System.Windows.Forms.TabPage();
+            this.SongRequestTab = new System.Windows.Forms.TabPage();
+            this.QuotesTab = new System.Windows.Forms.TabPage();
+            this.ModTab = new System.Windows.Forms.TabPage();
+            this.NotifyTab = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.ChatTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scChatting)).BeginInit();
             this.scChatting.Panel1.SuspendLayout();
+            this.scChatting.Panel2.SuspendLayout();
             this.scChatting.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scChat)).BeginInit();
             this.scChat.Panel2.SuspendLayout();
             this.scChat.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.SettingsTab.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.InteractionTab.SuspendLayout();
+            this.tabControl2.SuspendLayout();
+            this.MiniGameTab.SuspendLayout();
+            this.tabControl3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.ChatTab);
+            this.tabControl1.Controls.Add(this.SettingsTab);
+            this.tabControl1.Controls.Add(this.CommandsTab);
+            this.tabControl1.Controls.Add(this.UserTab);
+            this.tabControl1.Controls.Add(this.InteractionTab);
+            this.tabControl1.Controls.Add(this.ModTab);
+            this.tabControl1.Controls.Add(this.NotifyTab);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -82,16 +106,16 @@
             this.tabControl1.Size = new System.Drawing.Size(984, 561);
             this.tabControl1.TabIndex = 0;
             // 
-            // tabPage1
+            // ChatTab
             // 
-            this.tabPage1.BackColor = System.Drawing.Color.LightGray;
-            this.tabPage1.Controls.Add(this.scChatting);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(976, 535);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Chat Window";
+            this.ChatTab.BackColor = System.Drawing.Color.LightGray;
+            this.ChatTab.Controls.Add(this.scChatting);
+            this.ChatTab.Location = new System.Drawing.Point(4, 22);
+            this.ChatTab.Name = "ChatTab";
+            this.ChatTab.Padding = new System.Windows.Forms.Padding(3);
+            this.ChatTab.Size = new System.Drawing.Size(976, 535);
+            this.ChatTab.TabIndex = 0;
+            this.ChatTab.Text = "Chat Window";
             // 
             // scChatting
             // 
@@ -103,8 +127,14 @@
             // scChatting.Panel1
             // 
             this.scChatting.Panel1.Controls.Add(this.scChat);
+            // 
+            // scChatting.Panel2
+            // 
+            this.scChatting.Panel2.Controls.Add(this.SendMessage);
+            this.scChatting.Panel2.Controls.Add(this.tbChatMessage);
+            this.scChatting.Panel2.Controls.Add(this.cbMessageSender);
             this.scChatting.Size = new System.Drawing.Size(970, 529);
-            this.scChatting.SplitterDistance = 485;
+            this.scChatting.SplitterDistance = 500;
             this.scChatting.TabIndex = 1;
             // 
             // scChat
@@ -116,31 +146,64 @@
             // scChat.Panel2
             // 
             this.scChat.Panel2.Controls.Add(this.lbViewerList);
-            this.scChat.Size = new System.Drawing.Size(970, 485);
+            this.scChat.Size = new System.Drawing.Size(970, 500);
             this.scChat.SplitterDistance = 750;
             this.scChat.TabIndex = 0;
             // 
             // lbViewerList
             // 
+            this.lbViewerList.BackColor = System.Drawing.Color.Black;
             this.lbViewerList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lbViewerList.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbViewerList.ForeColor = System.Drawing.SystemColors.Window;
             this.lbViewerList.FormattingEnabled = true;
+            this.lbViewerList.ItemHeight = 20;
             this.lbViewerList.Location = new System.Drawing.Point(0, 0);
             this.lbViewerList.Name = "lbViewerList";
-            this.lbViewerList.Size = new System.Drawing.Size(216, 485);
+            this.lbViewerList.Size = new System.Drawing.Size(216, 500);
             this.lbViewerList.TabIndex = 0;
             // 
-            // tabPage2
+            // SendMessage
             // 
-            this.tabPage2.Controls.Add(this.groupBox3);
-            this.tabPage2.Controls.Add(this.groupBox2);
-            this.tabPage2.Controls.Add(this.groupBox1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(976, 535);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Settings Tab";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.SendMessage.Location = new System.Drawing.Point(890, 2);
+            this.SendMessage.Name = "SendMessage";
+            this.SendMessage.Size = new System.Drawing.Size(75, 23);
+            this.SendMessage.TabIndex = 2;
+            this.SendMessage.Text = "Send Message";
+            this.SendMessage.UseVisualStyleBackColor = true;
+            this.SendMessage.Click += new System.EventHandler(this.SendMessage_Click);
+            // 
+            // tbChatMessage
+            // 
+            this.tbChatMessage.Location = new System.Drawing.Point(132, 3);
+            this.tbChatMessage.Name = "tbChatMessage";
+            this.tbChatMessage.Size = new System.Drawing.Size(752, 20);
+            this.tbChatMessage.TabIndex = 1;
+            this.tbChatMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatMessageBox_KeyDown);
+            // 
+            // cbMessageSender
+            // 
+            this.cbMessageSender.FormattingEnabled = true;
+            this.cbMessageSender.Items.AddRange(new object[] {
+            "Streamer",
+            "Merlin_b0t"});
+            this.cbMessageSender.Location = new System.Drawing.Point(5, 3);
+            this.cbMessageSender.Name = "cbMessageSender";
+            this.cbMessageSender.Size = new System.Drawing.Size(121, 21);
+            this.cbMessageSender.TabIndex = 0;
+            // 
+            // SettingsTab
+            // 
+            this.SettingsTab.BackColor = System.Drawing.Color.DimGray;
+            this.SettingsTab.Controls.Add(this.groupBox3);
+            this.SettingsTab.Controls.Add(this.groupBox2);
+            this.SettingsTab.Controls.Add(this.groupBox1);
+            this.SettingsTab.Location = new System.Drawing.Point(4, 22);
+            this.SettingsTab.Name = "SettingsTab";
+            this.SettingsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.SettingsTab.Size = new System.Drawing.Size(976, 535);
+            this.SettingsTab.TabIndex = 1;
+            this.SettingsTab.Text = "Settings Tab";
             // 
             // groupBox3
             // 
@@ -335,54 +398,179 @@
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "StreamerOauth: ";
             // 
-            // tabPage3
+            // CommandsTab
             // 
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(976, 535);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Commands";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.CommandsTab.BackColor = System.Drawing.Color.DimGray;
+            this.CommandsTab.Location = new System.Drawing.Point(4, 22);
+            this.CommandsTab.Name = "CommandsTab";
+            this.CommandsTab.Size = new System.Drawing.Size(976, 535);
+            this.CommandsTab.TabIndex = 2;
+            this.CommandsTab.Text = "Commands";
             // 
-            // ManaBot
+            // UserTab
+            // 
+            this.UserTab.BackColor = System.Drawing.Color.DimGray;
+            this.UserTab.Location = new System.Drawing.Point(4, 22);
+            this.UserTab.Name = "UserTab";
+            this.UserTab.Size = new System.Drawing.Size(976, 535);
+            this.UserTab.TabIndex = 3;
+            this.UserTab.Text = "User Tab";
+            // 
+            // InteractionTab
+            // 
+            this.InteractionTab.BackColor = System.Drawing.Color.DimGray;
+            this.InteractionTab.Controls.Add(this.tabControl2);
+            this.InteractionTab.Location = new System.Drawing.Point(4, 22);
+            this.InteractionTab.Name = "InteractionTab";
+            this.InteractionTab.Size = new System.Drawing.Size(976, 535);
+            this.InteractionTab.TabIndex = 4;
+            this.InteractionTab.Text = "Interaction";
+            // 
+            // tabControl2
+            // 
+            this.tabControl2.Controls.Add(this.QueueTab);
+            this.tabControl2.Controls.Add(this.MiniGameTab);
+            this.tabControl2.Controls.Add(this.SongRequestTab);
+            this.tabControl2.Controls.Add(this.QuotesTab);
+            this.tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl2.Location = new System.Drawing.Point(0, 0);
+            this.tabControl2.Name = "tabControl2";
+            this.tabControl2.SelectedIndex = 0;
+            this.tabControl2.Size = new System.Drawing.Size(976, 535);
+            this.tabControl2.TabIndex = 0;
+            // 
+            // QueueTab
+            // 
+            this.QueueTab.BackColor = System.Drawing.Color.DimGray;
+            this.QueueTab.Location = new System.Drawing.Point(4, 22);
+            this.QueueTab.Name = "QueueTab";
+            this.QueueTab.Padding = new System.Windows.Forms.Padding(3);
+            this.QueueTab.Size = new System.Drawing.Size(968, 509);
+            this.QueueTab.TabIndex = 0;
+            this.QueueTab.Text = "Queue";
+            // 
+            // MiniGameTab
+            // 
+            this.MiniGameTab.BackColor = System.Drawing.Color.DimGray;
+            this.MiniGameTab.Controls.Add(this.tabControl3);
+            this.MiniGameTab.Location = new System.Drawing.Point(4, 22);
+            this.MiniGameTab.Name = "MiniGameTab";
+            this.MiniGameTab.Padding = new System.Windows.Forms.Padding(3);
+            this.MiniGameTab.Size = new System.Drawing.Size(968, 509);
+            this.MiniGameTab.TabIndex = 1;
+            this.MiniGameTab.Text = "MiniGames";
+            // 
+            // tabControl3
+            // 
+            this.tabControl3.Controls.Add(this.HeistTab);
+            this.tabControl3.Controls.Add(this.CrystalBallsTab);
+            this.tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl3.Location = new System.Drawing.Point(3, 3);
+            this.tabControl3.Name = "tabControl3";
+            this.tabControl3.SelectedIndex = 0;
+            this.tabControl3.Size = new System.Drawing.Size(962, 503);
+            this.tabControl3.TabIndex = 0;
+            // 
+            // HeistTab
+            // 
+            this.HeistTab.Location = new System.Drawing.Point(4, 22);
+            this.HeistTab.Name = "HeistTab";
+            this.HeistTab.Padding = new System.Windows.Forms.Padding(3);
+            this.HeistTab.Size = new System.Drawing.Size(954, 477);
+            this.HeistTab.TabIndex = 0;
+            this.HeistTab.Text = "Heist";
+            this.HeistTab.UseVisualStyleBackColor = true;
+            // 
+            // CrystalBallsTab
+            // 
+            this.CrystalBallsTab.Location = new System.Drawing.Point(4, 22);
+            this.CrystalBallsTab.Name = "CrystalBallsTab";
+            this.CrystalBallsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.CrystalBallsTab.Size = new System.Drawing.Size(954, 477);
+            this.CrystalBallsTab.TabIndex = 1;
+            this.CrystalBallsTab.Text = "CrystalBallTab";
+            this.CrystalBallsTab.UseVisualStyleBackColor = true;
+            // 
+            // SongRequestTab
+            // 
+            this.SongRequestTab.Location = new System.Drawing.Point(4, 22);
+            this.SongRequestTab.Name = "SongRequestTab";
+            this.SongRequestTab.Size = new System.Drawing.Size(968, 509);
+            this.SongRequestTab.TabIndex = 2;
+            this.SongRequestTab.Text = "Song Requests";
+            this.SongRequestTab.UseVisualStyleBackColor = true;
+            // 
+            // QuotesTab
+            // 
+            this.QuotesTab.Location = new System.Drawing.Point(4, 22);
+            this.QuotesTab.Name = "QuotesTab";
+            this.QuotesTab.Size = new System.Drawing.Size(968, 509);
+            this.QuotesTab.TabIndex = 3;
+            this.QuotesTab.Text = "Quotes";
+            this.QuotesTab.UseVisualStyleBackColor = true;
+            // 
+            // ModTab
+            // 
+            this.ModTab.BackColor = System.Drawing.Color.DimGray;
+            this.ModTab.Location = new System.Drawing.Point(4, 22);
+            this.ModTab.Name = "ModTab";
+            this.ModTab.Size = new System.Drawing.Size(976, 535);
+            this.ModTab.TabIndex = 5;
+            this.ModTab.Text = "Moderation Tab";
+            // 
+            // NotifyTab
+            // 
+            this.NotifyTab.BackColor = System.Drawing.Color.DimGray;
+            this.NotifyTab.Location = new System.Drawing.Point(4, 22);
+            this.NotifyTab.Name = "NotifyTab";
+            this.NotifyTab.Size = new System.Drawing.Size(976, 535);
+            this.NotifyTab.TabIndex = 6;
+            this.NotifyTab.Text = "Notifcations";
+            // 
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.LightGray;
+            this.BackColor = System.Drawing.Color.DimGray;
             this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.MaximumSize = new System.Drawing.Size(1000, 600);
-            this.Name = "ManaBot";
+            this.MinimumSize = new System.Drawing.Size(1000, 600);
+            this.Name = "MainForm";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.ChatTab.ResumeLayout(false);
             this.scChatting.Panel1.ResumeLayout(false);
+            this.scChatting.Panel2.ResumeLayout(false);
+            this.scChatting.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scChatting)).EndInit();
             this.scChatting.ResumeLayout(false);
             this.scChat.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.scChat)).EndInit();
             this.scChat.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            this.SettingsTab.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.InteractionTab.ResumeLayout(false);
+            this.tabControl2.ResumeLayout(false);
+            this.MiniGameTab.ResumeLayout(false);
+            this.tabControl3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage ChatTab;
         private System.Windows.Forms.SplitContainer scChat;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage SettingsTab;
         private System.Windows.Forms.SplitContainer scChatting;
-        private System.Windows.Forms.ListBox lbViewerList;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox tbChannel;
         private System.Windows.Forms.MaskedTextBox tbBotOauth;
@@ -401,10 +589,26 @@
         private System.Windows.Forms.TextBox tbDeepbotIp;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tbCommandChar;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage CommandsTab;
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RichTextBox tbCheckCommandRep;
         private System.Windows.Forms.Label label8;
+        public System.Windows.Forms.ListBox lbViewerList;
+        private System.Windows.Forms.TabPage UserTab;
+        private System.Windows.Forms.TabPage InteractionTab;
+        private System.Windows.Forms.TabPage ModTab;
+        private System.Windows.Forms.TabPage NotifyTab;
+        private System.Windows.Forms.Button SendMessage;
+        private System.Windows.Forms.TextBox tbChatMessage;
+        private System.Windows.Forms.ComboBox cbMessageSender;
+        private System.Windows.Forms.TabControl tabControl2;
+        private System.Windows.Forms.TabPage QueueTab;
+        private System.Windows.Forms.TabPage MiniGameTab;
+        private System.Windows.Forms.TabControl tabControl3;
+        private System.Windows.Forms.TabPage HeistTab;
+        private System.Windows.Forms.TabPage CrystalBallsTab;
+        private System.Windows.Forms.TabPage SongRequestTab;
+        private System.Windows.Forms.TabPage QuotesTab;
     }
 }
 

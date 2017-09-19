@@ -24,14 +24,14 @@ namespace ManaBot.Twitch
                 TwitchConnect.BotClient.SendMessage("This is a test of the command system. " +
                     "If this was an actual command you would see an actual response Kappa");
             }
-            else if (Command == ManaBot.CheckCommand.ToLower())
+            else if (Command == MainForm.CheckCommand.ToLower())
             {
                 //Console.WriteLine("Check Command Hype");
-                var ws = new WebSocket("ws://" + ManaBot.DeepbotIp + ":3337");
+                var ws = new WebSocket("ws://" + MainForm.DeepbotIp + ":3337");
 
                 ws.OnOpen += (ss, ee) =>
                 {
-                    ws.Send("api|register|" + ManaBot.DeepbotApi);
+                    ws.Send("api|register|" + MainForm.DeepbotApi);
                     ws.Send("api|get_user|" + Username);
                 };
 
@@ -69,19 +69,19 @@ namespace ManaBot.Twitch
                         //Console.WriteLine("vip: " + vip);
                         //Console.WriteLine("mod: " + mod); //mod 0 = viewer, mod1 = Nomral, Mod2 = editor, mod3 = ??, mod 4 = Deepbot , mod 5 Streamer
 
-                        string placeholder = ManaBot.CheckCommandRep;
+                        string placeholder = MainForm.CheckCommandRep;
                         string title = "" ;
 
                         switch(vip)
                         {
                             case "1":
-                                title = ManaBot.Sub1 + " and ";
+                                title = MainForm.Sub1 + " and ";
                                 break;
                             case "2":
-                                title = ManaBot.Sub2 + " and ";
+                                title = MainForm.Sub2 + " and ";
                                 break;
                             case "3":
-                                title = ManaBot.Sub3 + " and ";
+                                title = MainForm.Sub3 + " and ";
                                 break;
 
                         }
@@ -89,22 +89,22 @@ namespace ManaBot.Twitch
                         switch (mod)
                         {
                             case "1":
-                                title += ManaBot.Mod1;
+                                title += MainForm.Mod1;
                                 break;
                             case "2":
-                                title += ManaBot.Mod2;
+                                title += MainForm.Mod2;
                                 break;
                             case "3":
-                                title += ManaBot.Mod2;
+                                title += MainForm.Mod2;
                                 break;
                             case "4":
-                                title += ManaBot.Mod2;
+                                title += MainForm.Mod2;
                                 break;
                             case "5":
-                                title += ManaBot.Mod2;
+                                title += MainForm.Mod2;
                                 break;
                             default:
-                                title = ManaBot.NormalViewer;
+                                title = MainForm.NormalViewer;
                                 break;
 
 
@@ -114,7 +114,7 @@ namespace ManaBot.Twitch
                         string ranknum = "" ;
                         string rankhours = "" ;
 
-                        var ranks = File.ReadAllLines(ManaBot.FilesDir + "spelllist.csv");
+                        var ranks = File.ReadAllLines(MainForm.FilesDir + "spelllist.csv");
                         int maxrank = ranks.Count();
                         bool exitcheck = false;
                         int count = 0;

@@ -16,7 +16,7 @@ namespace ManaBot
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ManaBot());
+            Application.Run(new MainForm());
         }
     }
 }

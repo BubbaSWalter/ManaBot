@@ -12,7 +12,6 @@ using TwitchLib.Models.Client;
 using TwitchLib.Events.Client;
 //CefSharp Includes includes
 using CefSharp;
-using CefSharp.WinForms;
 
 namespace ManaBot
 {
@@ -22,44 +21,89 @@ namespace ManaBot
         public static TwitchClient BotClient;
         public static void TwitchConnection()
         {
-            ConnectionCredentials StreamCreds = new ConnectionCredentials(ManaBot.StreamerName, ManaBot.StreamerOAuth);
-            ConnectionCredentials BotCreds = new ConnectionCredentials(ManaBot.BotName, ManaBot.BotOauth);
-            StreamClient = new TwitchClient(StreamCreds, ManaBot.Channel);
-            BotClient = new TwitchClient(BotCreds, ManaBot.Channel);
+
+            ConnectionCredentials StreamCreds = new ConnectionCredentials(MainForm.StreamerName, MainForm.StreamerOAuth);
+            ConnectionCredentials BotCreds = new ConnectionCredentials(MainForm.BotName, MainForm.BotOauth);
+            StreamClient = new TwitchClient(StreamCreds, MainForm.Channel);
+            BotClient = new TwitchClient(BotCreds, MainForm.Channel);
             BotClient.OnJoinedChannel += BotJoinedChannel;
             BotClient.OnMessageReceived += BotReciviedMessage;
             BotClient.OnChatCommandReceived += BotCommandRecivied;
-            BotClient.AddChatCommandIdentifier(ManaBot.CommandChar);
-            BotClient.AddWhisperCommandIdentifier(ManaBot.CommandChar);
-            StreamClient.OnMessageReceived += StreamerReciviedMessage;
+            BotClient.AddChatCommandIdentifier(MainForm.CommandChar);
+            BotClient.AddWhisperCommandIdentifier(MainForm.CommandChar);
+            StreamClient.OnJoinedChannel += StreamerJoinedChannel;
             StreamClient.Connect();
             BotClient.Connect();
         }
-
+        
         private static void BotJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
-            BotClient.SendMessage("/me Merlin_Bot is here");
+            //BotClient.SendMessage("/me Merlin_Bot is here");
+           
+        }
+        private static void StreamerJoinedChannel(object sender, OnJoinedChannelArgs e)
+        {
+            //StreamClient.SendMessage("/me WizardsRWe is here");
+
         }
 
         private static void BotReciviedMessage(object sender, OnMessageReceivedArgs e)
         {
+            if (e.ChatMessage.Username.ToLower() == MainForm.StreamerName.ToLower())
+            {
+                string uname = e.ChatMessage.DisplayName;
+                string utype = Convert.ToString(e.ChatMessage.UserType).ToLower();
+                bool Subscriber = e.ChatMessage.IsSubscriber;
+                bool Broadcaster = false;
+                if (e.ChatMessage.Username == MainForm.StreamerName)
+                {
+                    Broadcaster = true;
+                }
+                bool Turbo = e.ChatMessage.IsTurbo;
+                string ChatMessage = e.ChatMessage.Message;
+                foreach (var emote in e.ChatMessage.EmoteSet.Emotes)
+                {
+                    var name = emote.Name;
+                    var start = emote.StartIndex;
+                    var url = emote.ImageUrl;
+                    ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"" + url + "\" + ></img>" + " ");
+                }
+                WebChat(uname, utype, Subscriber, Broadcaster, ChatMessage);
+            }
+        }
+
+        private static void StreamerSentMessage(object sender, OnMessageSentArgs e)
+        {
 
         }
+
         private static void StreamerReciviedMessage(object sender, OnMessageReceivedArgs e)
         {
+
+            if (e.ChatMessage.Username.ToLower() == StreamClient.TwitchUsername)
+            {
+                return;
+            }
             string uname = e.ChatMessage.DisplayName;
             string utype = Convert.ToString(e.ChatMessage.UserType).ToLower();
             bool Subscriber = e.ChatMessage.IsSubscriber;
             bool Broadcaster = false;
-            if (e.ChatMessage.Username == ManaBot.StreamerName)
+            if (e.ChatMessage.Username == MainForm.StreamerName)
             {
                 Broadcaster = true;
             }
             bool Turbo = e.ChatMessage.IsTurbo;
             string ChatMessage = e.ChatMessage.Message;
-            //Console.WriteLine("usertype: " + utype );
+            foreach (var emote in e.ChatMessage.EmoteSet.Emotes)
+            {
+                var name = emote.Name;
+                var start = emote.StartIndex;
+                var url = emote.ImageUrl;
+                ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"" + url + "\" + ></img>" + " ");
+            }
             WebChat(uname, utype, Subscriber, Broadcaster, ChatMessage);
         }
+
         private static void BotCommandRecivied(object sender, OnChatCommandReceivedArgs e)
         {
             var ChatMessage = e.Command.ChatMessage;
@@ -87,16 +131,15 @@ namespace ManaBot
             //Console.WriteLine(e.Command.ChatMessage.Message);
         }
 
+        
 
-        private static void WebChat(string UserName, string UserType, bool SubStatus, bool Broadcaster, string ChatMessage)
+        
+        public static void WebChat(string UserName, string UserType, bool SubStatus, bool Broadcaster, string ChatMessage)
         {
             string tagcast = "tag ";
             string tagtype = "tag ";
             string tagsub = "tag ";
             string placeholder;
-
-
-
             //User types moderator, global mod, admin, or staff
             switch (UserType.ToLower())
             {
@@ -120,9 +163,6 @@ namespace ManaBot
                     break;
 
             }
-
-
-
             StringWriter textwriter = new StringWriter();
             using (HtmlTextWriter writer = new HtmlTextWriter(textwriter))
             {
@@ -158,7 +198,6 @@ namespace ManaBot
                 }
                 #endregion
 
-
                 #region Username
                 /* Difference between Username & DisplayName
                  * username = bubbaswalter
@@ -172,7 +211,6 @@ namespace ManaBot
                 #endregion
 
                 #region ChatMessage
-
                 writer.AddAttribute(HtmlTextWriterAttribute.Class, "message");
                 writer.RenderBeginTag(HtmlTextWriterTag.Div);
                 writer.Write(ChatMessage);
@@ -184,19 +222,14 @@ namespace ManaBot
 
             placeholder = textwriter.ToString();
 
-            var lines = File.ReadAllLines(ManaBot.WebDir + "chat.html").ToList();
+            var lines = File.ReadAllLines(MainForm.WebDir + "chat.html").ToList();
             int Totalline = lines.Count();
             lines.Insert(Totalline - 3, placeholder + Environment.NewLine);
-            File.WriteAllLines(ManaBot.WebDir + "chat.html", lines);
-            if (ManaBot.chatBrowser.IsBrowserInitialized)
+            File.WriteAllLines(MainForm.WebDir + "chat.html", lines);
+            if (MainForm.chatBrowser.IsBrowserInitialized)
             {
-                ManaBot.chatBrowser.Reload();
+                MainForm.chatBrowser.Reload();
             }
-
-
-
         }
-
-
     }
 }

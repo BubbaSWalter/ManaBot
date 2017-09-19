@@ -15,36 +15,36 @@ namespace ManaBot
             //Create a new Config
             XmlConfig XmlConfigUpdate = new XmlConfig();
             //Twitch Settings
-            XmlConfigUpdate.StreamerName = ManaBot.StreamerName;
-            XmlConfigUpdate.StreamerOauth = ManaBot.StreamerOAuth;
-            XmlConfigUpdate.BotName = ManaBot.BotName;
-            XmlConfigUpdate.BotOauth = ManaBot.BotOauth;
-            XmlConfigUpdate.Channel = ManaBot.Channel;
-            XmlConfigUpdate.CommandChar = ManaBot.CommandChar;
+            XmlConfigUpdate.StreamerName = MainForm.StreamerName;
+            XmlConfigUpdate.StreamerOauth = MainForm.StreamerOAuth;
+            XmlConfigUpdate.BotName = MainForm.BotName;
+            XmlConfigUpdate.BotOauth = MainForm.BotOauth;
+            XmlConfigUpdate.Channel = MainForm.Channel;
+            XmlConfigUpdate.CommandChar = MainForm.CommandChar;
             //Deepbot Settings
-            XmlConfigUpdate.DeepBotIp = ManaBot.DeepbotIp;
-            XmlConfigUpdate.DeepBotAPI = ManaBot.DeepbotApi;
+            XmlConfigUpdate.DeepBotIp = MainForm.DeepbotIp;
+            XmlConfigUpdate.DeepBotAPI = MainForm.DeepbotApi;
             //Currency Settings
-            XmlConfigUpdate.Mod1 = ManaBot.Mod1;
-            XmlConfigUpdate.Mod2 = ManaBot.Mod2;
-            XmlConfigUpdate.Vip1 = ManaBot.Sub1;
-            XmlConfigUpdate.Vip2 = ManaBot.Sub2;
-            XmlConfigUpdate.Vip3 = ManaBot.Sub3;
-            XmlConfigUpdate.NormalViewer = ManaBot.NormalViewer;
-            XmlConfigUpdate.CheckCommand = ManaBot.CheckCommand;
+            XmlConfigUpdate.Mod1 = MainForm.Mod1;
+            XmlConfigUpdate.Mod2 = MainForm.Mod2;
+            XmlConfigUpdate.Vip1 = MainForm.Sub1;
+            XmlConfigUpdate.Vip2 = MainForm.Sub2;
+            XmlConfigUpdate.Vip3 = MainForm.Sub3;
+            XmlConfigUpdate.NormalViewer = MainForm.NormalViewer;
+            XmlConfigUpdate.CheckCommand = MainForm.CheckCommand;
 
-            XmlConfig.Serialize(ManaBot.FilesDir + "config.xml", XmlConfigUpdate);
+            XmlConfig.Serialize(MainForm.FilesDir + "config.xml", XmlConfigUpdate);
         }
 
         private void LoadXmlSettings()
         {
-            XmlConfig XMLConfigLoad = XmlConfig.DeSerialize(ManaBot.FilesDir + "config.xml");
-            ManaBot.StreamerName = XMLConfigLoad.StreamerName;
-            ManaBot.StreamerOAuth = XMLConfigLoad.StreamerOauth;
-            ManaBot.BotName = XMLConfigLoad.BotName;
-            ManaBot.BotOauth = XMLConfigLoad.BotOauth;
-            ManaBot.Channel = XMLConfigLoad.Channel;
-            ManaBot.CommandChar = XMLConfigLoad.CommandChar;
+            XmlConfig XMLConfigLoad = XmlConfig.DeSerialize(MainForm.FilesDir + "config.xml");
+            MainForm.StreamerName = XMLConfigLoad.StreamerName;
+            MainForm.StreamerOAuth = XMLConfigLoad.StreamerOauth;
+            MainForm.BotName = XMLConfigLoad.BotName;
+            MainForm.BotOauth = XMLConfigLoad.BotOauth;
+            MainForm.Channel = XMLConfigLoad.Channel;
+            MainForm.CommandChar = XMLConfigLoad.CommandChar;
             Console.WriteLine(XMLConfigLoad.CommandChar);
         }
     }
