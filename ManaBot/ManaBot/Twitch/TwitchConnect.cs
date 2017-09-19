@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using System.Net;
 using System.Windows.Forms;
 using System.Web.UI;
 using TwitchLib;
@@ -68,6 +69,40 @@ namespace ManaBot
                     var url = emote.ImageUrl;
                     ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"" + url + "\" + ></img>" + " ");
                 }
+                using (WebClient Client = new WebClient())
+                {
+                    string globalbttv = Client.DownloadString("https://api.betterttv.net/2/emotes");
+                    globalbttv = globalbttv.Replace(" ", "");
+                    string channelbttv = Client.DownloadString("https://api.betterttv.net/2/channels/wizardsrwe");
+
+                    string channelemotelist = channelbttv.Split(new string[] { "\"emotes\":[", "]}" }, StringSplitOptions.None)[1];
+                    string Globalemotelist = globalbttv.Split(new string[] { "\"emotes\":[", "" }, StringSplitOptions.None)[1];
+                    foreach (string item in channelemotelist.Split(new string[] { "{", "}" }, StringSplitOptions.None))
+                    {
+                        if (item != "," && item != " " && item != "")
+                        {
+
+                            string id = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[3];
+                            string name = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[11];
+                            string url = "cdn.betterttv.net/emote/" + id + "/1x";
+                            Console.WriteLine("Name: " + name);
+                            ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"https://" + url + "\"></img>" + " ");
+
+                        }
+                    }
+                    foreach (string item in Globalemotelist.Split(new string[] { "{", "}" }, StringSplitOptions.None))
+                    {
+                        
+                        if (item != "," && item != " " && item != "" && item != "]" && !item.Contains("channels") && !item.Contains("imageType"))
+                        {
+                            string id = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[3];
+                            string name = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[7];
+                            string url = "cdn.betterttv.net/emote/" + id + "/1x";
+                            Console.WriteLine("Name: " + name + " id: " + id);
+                            ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"https://" + url + "\"></img>" + " ");
+                        }
+                    }
+                }
                 WebChat(uname, utype, Subscriber, Broadcaster, ChatMessage);
             }
         }
@@ -100,6 +135,40 @@ namespace ManaBot
                 var start = emote.StartIndex;
                 var url = emote.ImageUrl;
                 ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"" + url + "\" + ></img>" + " ");
+            }
+            using (WebClient Client = new WebClient())
+            {
+                string globalbttv = Client.DownloadString("https://api.betterttv.net/2/emotes");
+                globalbttv = globalbttv.Replace(" ", "");
+                string channelbttv = Client.DownloadString("https://api.betterttv.net/2/channels/wizardsrwe");
+
+                string channelemotelist = channelbttv.Split(new string[] { "\"emotes\":[", "]}" }, StringSplitOptions.None)[1];
+                string Globalemotelist = globalbttv.Split(new string[] { "\"emotes\":[", "" }, StringSplitOptions.None)[1];
+                foreach (string item in channelemotelist.Split(new string[] { "{", "}" }, StringSplitOptions.None))
+                {
+                    if (item != "," && item != " " && item != "")
+                    {
+
+                        string id = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[3];
+                        string name = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[11];
+                        string url = "cdn.betterttv.net/emote/" + id + "/1x";
+                        Console.WriteLine("Name: " + name);
+                        ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"https://" + url + "\"></img>" + " ");
+
+                    }
+                }
+                foreach (string item in Globalemotelist.Split(new string[] { "{", "}" }, StringSplitOptions.None))
+                {
+
+                    if (item != "," && item != " " && item != "" && item != "]" && !item.Contains("channels") && !item.Contains("imageType"))
+                    {
+                        string id = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[3];
+                        string name = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[7];
+                        string url = "cdn.betterttv.net/emote/" + id + "/1x";
+                        Console.WriteLine("Name: " + name + " id: " + id);
+                        ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"https://" + url + "\"></img>" + " ");
+                    }
+                }
             }
             WebChat(uname, utype, Subscriber, Broadcaster, ChatMessage);
         }

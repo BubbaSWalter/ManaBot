@@ -11,12 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using System.Web.UI;
 using CefSharp;
 using CefSharp.WinForms;
-using TwitchLib;
-using TwitchLib.Models.Client;
-using TwitchLib.Events.Client;
+using System.Net;
 
 
 
@@ -142,9 +139,37 @@ namespace ManaBot
             Console.WriteLine(CheckCommandRep);
             TwitchConnect Twitcher = new TwitchConnect();
             cbMessageSender.SelectedIndex = 0;
-
+            jsontest();
         }
         
+        private void jsontest()
+        {
+            using (WebClient Edword = new WebClient())
+            {
+                string globalnttv = Edword.DownloadString("https://api.betterttv.net/2/emotes");
+                string channelbttv= Edword.DownloadString("https://api.betterttv.net/2/channels/wizardsrwe");
+                string urls = "";
+                //MessageBox.Show(channelbttv);
+                string channelemotelist = channelbttv.Split(new string[] { "\"emotes\":[", "]}" }, StringSplitOptions.None)[1];
+                //MessageBox.Show(channelemotelist);
+                foreach (string item in channelemotelist.Split(new string[] { "{" , "}" }, StringSplitOptions.None))
+                {
+                    //"id":"58a7fb0a06e70d0465b2a9ee","channel":"wizardsrwe","code":"wizard4MAGIC","imageType":"png"
+                    if(item != "," && item != " " && item != "")
+                    {
+                        
+                        string id = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[3];
+                        string code = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[11];
+                        urls += "cdn.betterttv.net/emote/" + id + "/2x" + Environment.NewLine;
+                        
+                    }
+                    //MessageBox.Show(urls);
+                    
+                }
+                File.AppendAllText(FilesDir + "json.text", urls + Environment.NewLine);
+            }
+        }
+
         #endregion
 
         #region Xml Settings
@@ -250,10 +275,6 @@ namespace ManaBot
         private void SendMessage_Click(object sender, EventArgs e)
         {
             SendMessageFun();
-
-
-
-
         }
     }
 
