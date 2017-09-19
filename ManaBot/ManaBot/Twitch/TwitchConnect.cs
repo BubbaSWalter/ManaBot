@@ -1,12 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web;
 using System.Net;
-using System.Windows.Forms;
 using System.Web.UI;
 using TwitchLib;
 using TwitchLib.Models.Client;
@@ -33,6 +28,7 @@ namespace ManaBot
             BotClient.AddChatCommandIdentifier(MainForm.CommandChar);
             BotClient.AddWhisperCommandIdentifier(MainForm.CommandChar);
             StreamClient.OnJoinedChannel += StreamerJoinedChannel;
+            StreamClient.OnMessageReceived += StreamReciviedMessage;
             StreamClient.Connect();
             BotClient.Connect();
         }
@@ -42,6 +38,7 @@ namespace ManaBot
             //BotClient.SendMessage("/me Merlin_Bot is here");
            
         }
+
         private static void StreamerJoinedChannel(object sender, OnJoinedChannelArgs e)
         {
             //StreamClient.SendMessage("/me WizardsRWe is here");
@@ -112,10 +109,10 @@ namespace ManaBot
 
         }
 
-        private static void StreamerReciviedMessage(object sender, OnMessageReceivedArgs e)
+        private static void StreamReciviedMessage(object sender, OnMessageReceivedArgs e)
         {
 
-            if (e.ChatMessage.Username.ToLower() == StreamClient.TwitchUsername)
+            if (e.ChatMessage.Username.ToLower() == MainForm.StreamerName.ToLower())
             {
                 return;
             }
@@ -200,9 +197,6 @@ namespace ManaBot
             //Console.WriteLine(e.Command.ChatMessage.Message);
         }
 
-        
-
-        
         public static void WebChat(string UserName, string UserType, bool SubStatus, bool Broadcaster, string ChatMessage)
         {
             string tagcast = "tag ";

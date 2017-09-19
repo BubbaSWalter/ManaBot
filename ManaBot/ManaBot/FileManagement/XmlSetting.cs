@@ -10,7 +10,7 @@ namespace ManaBot
 {
     public class XmlSetting
     {
-        private void UpdateXmlSettings()
+        public void UpdateXmlSettings()
         {
             //Create a new Config
             XmlConfig XmlConfigUpdate = new XmlConfig();
@@ -36,7 +36,7 @@ namespace ManaBot
             XmlConfig.Serialize(MainForm.FilesDir + "config.xml", XmlConfigUpdate);
         }
 
-        private void LoadXmlSettings()
+        public void LoadXmlSettings()
         {
             XmlConfig XMLConfigLoad = XmlConfig.DeSerialize(MainForm.FilesDir + "config.xml");
             MainForm.StreamerName = XMLConfigLoad.StreamerName;

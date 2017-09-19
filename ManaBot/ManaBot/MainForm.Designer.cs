@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ChatTab = new System.Windows.Forms.TabPage();
             this.scChatting = new System.Windows.Forms.SplitContainer();
@@ -71,6 +72,8 @@
             this.QuotesTab = new System.Windows.Forms.TabPage();
             this.ModTab = new System.Windows.Forms.TabPage();
             this.NotifyTab = new System.Windows.Forms.TabPage();
+            this.TimerViewerList = new System.Windows.Forms.Timer(this.components);
+            this.PointsGeneration = new System.Windows.Forms.Timer(this.components);
             this.tabControl1.SuspendLayout();
             this.ChatTab.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.scChatting)).BeginInit();
@@ -191,6 +194,7 @@
             this.cbMessageSender.Name = "cbMessageSender";
             this.cbMessageSender.Size = new System.Drawing.Size(121, 21);
             this.cbMessageSender.TabIndex = 0;
+            this.cbMessageSender.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.cbMessageSender_MouseDoubleClick);
             // 
             // SettingsTab
             // 
@@ -527,6 +531,11 @@
             this.NotifyTab.TabIndex = 6;
             this.NotifyTab.Text = "Notifcations";
             // 
+            // TimerViewerList
+            // 
+            this.TimerViewerList.Interval = 120000;
+            this.TimerViewerList.Tick += new System.EventHandler(this.ViewerList_Tick);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -609,6 +618,8 @@
         private System.Windows.Forms.TabPage CrystalBallsTab;
         private System.Windows.Forms.TabPage SongRequestTab;
         private System.Windows.Forms.TabPage QuotesTab;
+        private System.Windows.Forms.Timer TimerViewerList;
+        private System.Windows.Forms.Timer PointsGeneration;
     }
 }
 

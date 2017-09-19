@@ -1,19 +1,14 @@
 ﻿using System;
 using System.IO;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using CefSharp;
+using System.Collections.Generic;
 using CefSharp.WinForms;
 using System.Net;
+using TwitchCSharp.Clients;
+using TwitchCSharp.Models;
 
 
 
@@ -26,7 +21,7 @@ namespace ManaBot
         public static ChromiumWebBrowser chatBrowser;
         #endregion
 
-       #region Twitch Settings
+        #region Twitch Settings
         public static string StreamerName = "StreamerName";
         public static string StreamerOAuth = "StreamerOauth";
         public static string BotName = "BotName";
@@ -66,6 +61,15 @@ namespace ManaBot
         public static string CurrentDir = Directory.GetCurrentDirectory();
         public static string FilesDir = CurrentDir + @"\files\";
         public static string WebDir = CurrentDir + @"\web\";
+        #endregion
+
+        #region TwitchAPI
+        static string TwitchClientID = TopSecret.ClientID;
+        static string TwitchApiAuth = TopSecret.TwitchAuthToken;
+        TwitchReadOnlyClient TwitchAPI = new TwitchReadOnlyClient(TwitchClientID);
+        TwitchAuthenticatedClient TwitchAPIAuth= new TwitchAuthenticatedClient(TwitchClientID, TwitchApiAuth);
+        TwitchROChat ChatClient = new TwitchROChat(TwitchClientID);
+        
         #endregion
 
         #endregion
@@ -139,37 +143,21 @@ namespace ManaBot
             Console.WriteLine(CheckCommandRep);
             TwitchConnect Twitcher = new TwitchConnect();
             cbMessageSender.SelectedIndex = 0;
-            jsontest();
+            ViewerListUpdate();
+            TimerViewerList.Start();
+            ViewerList_Tick(null, null);
+
+            statusUpdate();
         }
         
-        private void jsontest()
+        private void statusUpdate()
         {
-            using (WebClient Edword = new WebClient())
-            {
-                string globalnttv = Edword.DownloadString("https://api.betterttv.net/2/emotes");
-                string channelbttv= Edword.DownloadString("https://api.betterttv.net/2/channels/wizardsrwe");
-                string urls = "";
-                //MessageBox.Show(channelbttv);
-                string channelemotelist = channelbttv.Split(new string[] { "\"emotes\":[", "]}" }, StringSplitOptions.None)[1];
-                //MessageBox.Show(channelemotelist);
-                foreach (string item in channelemotelist.Split(new string[] { "{" , "}" }, StringSplitOptions.None))
-                {
-                    //"id":"58a7fb0a06e70d0465b2a9ee","channel":"wizardsrwe","code":"wizard4MAGIC","imageType":"png"
-                    if(item != "," && item != " " && item != "")
-                    {
-                        
-                        string id = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[3];
-                        string code = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[11];
-                        urls += "cdn.betterttv.net/emote/" + id + "/2x" + Environment.NewLine;
-                        
-                    }
-                    //MessageBox.Show(urls);
-                    
-                }
-                File.AppendAllText(FilesDir + "json.text", urls + Environment.NewLine);
-            }
+            string StreamGame = TwitchAPI.GetChannel(Channel).Game;
+            string StreamStatus = TwitchAPI.GetChannel(Channel).Status;
+            Chatters AllChatters = ChatClient.GetChatters(Channel);
+            MainForm.ActiveForm.Text = "WizardsRWe - Viewers (" + Convert.ToString(ChatClient.GetChatterCount(Channel)) + ") - Game : "
+                + StreamGame + " - Status: " + StreamStatus;
         }
-
         #endregion
 
         #region Xml Settings
@@ -275,6 +263,46 @@ namespace ManaBot
         private void SendMessage_Click(object sender, EventArgs e)
         {
             SendMessageFun();
+        }
+
+        private void cbMessageSender_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (cbMessageSender.SelectedIndex == 0) cbMessageSender.SelectedIndex = 1;
+            if (cbMessageSender.SelectedIndex == 1) cbMessageSender.SelectedIndex = 2;
+        }
+
+        private void ViewerList_Tick(object sender, EventArgs e)
+        {
+            ViewerListUpdate();
+        }
+
+        private void ViewerListUpdate()
+        {
+            lbViewerList.Items.Clear();
+            Chatters AllChatters = ChatClient.GetChatters(Channel);
+
+
+            foreach (string user in AllChatters.Admins)
+            {
+                lbViewerList.Items.Add(user);
+            }
+            foreach (string user in AllChatters.Staff)
+            {
+                lbViewerList.Items.Add(user);
+            }
+            foreach (string user in AllChatters.GlobalMods)
+            {
+                lbViewerList.Items.Add(user);
+            }
+            foreach (string user in AllChatters.Moderators)
+            {
+                lbViewerList.Items.Add(user);
+            }
+            foreach (string user in AllChatters.Viewers)
+            {
+                lbViewerList.Items.Add(user);
+            }
+            statusUpdate();
         }
     }
 
