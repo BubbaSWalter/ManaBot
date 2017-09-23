@@ -1,14 +1,17 @@
 ﻿using System;
 using System.IO;
+using System.Web.UI;
 using System.Data.SQLite;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 using CefSharp;
 using System.Collections.Generic;
 using CefSharp.WinForms;
 using System.Net;
-using TwitchCSharp.Clients;
-using TwitchCSharp.Models;
+using TwitchCSharp;
+using TwitchLib;
+using TwitchLib.Models.Client;
+using TwitchLib.Events.Client;
+using System.Linq;
 
 
 
@@ -27,13 +30,15 @@ namespace ManaBot
         public static string BotName = "BotName";
         public static string BotOauth = "BotOauth";
         public static string Channel = "Channel";
-        public static char CommandChar = '!';
+
 
         #endregion
 
         #region Database
         SQLiteConnection dbCmd;
+        SQLiteConnection dbSet;
         string Commandsfile = FilesDir + "commands.sqlite";
+        string Settingsfile = FilesDir + "settings.sqlite";
         #endregion
 
         #region Deepbot Settings
@@ -41,7 +46,16 @@ namespace ManaBot
         public static string DeepbotApi = "Deepbot API KEY";
         #endregion
 
-
+        #region Twitch LibSettings
+        public static char CommandChar = '!';
+        public static TwitchClient StreamClient;
+        public static TwitchClient BotClient;
+        public static List<string> Admin = new List<string>();
+        public static List<string> Staff = new List<string>();
+        public static List<string> GlobalMod = new List<string>();
+        public static List<string> Mod = new List<string>();
+        public static List<string> Viewer = new List<string>();
+        #endregion
         #region Currency Settings
         public static string Mod1 = "Mod Level 1";
         public static string Mod2 = "Mod Level 2";
@@ -49,7 +63,7 @@ namespace ManaBot
         public static string Sub2 = "Subscriber Level 2";
         public static string Sub3 = "Subscriber Level 3";
         public static string NormalViewer = "Viewer";
-        public static string Currency = "points";
+        public static string CurrencyName = "points";
         public static string CheckCommand = "points";
         public static string CheckCommandRep = "$user has $points mana. " +
             "They are curenntly a level $userranknum mage and the last spell they learned was $userrank. " +
@@ -57,18 +71,24 @@ namespace ManaBot
             "they are currently a $title";
         #endregion
 
-        #region Directory Settings;
+        #region Notify
+        List<string> Host = new List<string>();
+        List<string> Follow = new List<string>();
+        List<string> Tier1 = new List<string>();
+        List<string> Tier2 = new List<string>();
+        List<string> Tier3 = new List<string>();
+        #endregion
+
+        #region Directory Settings
         public static string CurrentDir = Directory.GetCurrentDirectory();
         public static string FilesDir = CurrentDir + @"\files\";
+        public static string DataDir = CurrentDir + @"\database\";
         public static string WebDir = CurrentDir + @"\web\";
         #endregion
 
         #region TwitchAPI
         static string TwitchClientID = TopSecret.ClientID;
         static string TwitchApiAuth = TopSecret.TwitchAuthToken;
-        TwitchReadOnlyClient TwitchAPI = new TwitchReadOnlyClient(TwitchClientID);
-        TwitchAuthenticatedClient TwitchAPIAuth= new TwitchAuthenticatedClient(TwitchClientID, TwitchApiAuth);
-        TwitchROChat ChatClient = new TwitchROChat(TwitchClientID);
         
         #endregion
 
@@ -85,7 +105,9 @@ namespace ManaBot
 
         public void InitializeChat()
         {
-            CefSettings settings = new CefSettings();
+            CefSettings settings = new CefSettings() {
+                CachePath = "Cache",
+            };
             // Initialize cef with the provided settings
             if (!Cef.IsInitialized)
             {
@@ -108,108 +130,28 @@ namespace ManaBot
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            if (!File.Exists(FilesDir + "config.xml"))
-            {
-                UpdateXmlSettings();
-            }
-            if(!File.Exists(FilesDir + "commands.sqlite"))
-            {
-                /* Permission Levels
-                 * 1 = Viewer
-                 * 2 = Subscriber
-                 * 3 = Moderator
-                 * 4 = Editor
-                 * 5 = Streamer
-                 */
-                SQLiteConnection.CreateFile(FilesDir + "commands.sqlite");
-                dbCmd = new SQLiteConnection("Data Source="  + FilesDir  + "commands.sqlite;Version=3;");
-                dbCmd.Open();
-                string sql = "CREATE TABLE `commandlist` (" +
-	                            "`Commands`	TEXT, "+
-	                            "`PermLevel`	INTEGER," +
-	                            "`Message`	TEXT, " + 
-	                            "PRIMARY KEY(`Commands`)"+
-                            ")";
-                SQLiteCommand dbc = new SQLiteCommand(sql, dbCmd);
-                dbc.ExecuteNonQuery();
-                dbCmd.Close();
 
-
-
-            }
-            LoadXmlSettings();
+            //LoadXmlSettings();
+            FileManagement.DataBase.UpdateSettings();
             UpdateTextBoxes();
-            TwitchConnect.TwitchConnection();
+            this.lbViewerList.VisibleChanged += new System.EventHandler(Form1_shown);
             Console.WriteLine(CheckCommandRep);
             TwitchConnect Twitcher = new TwitchConnect();
             cbMessageSender.SelectedIndex = 0;
-            ViewerListUpdate();
-            TimerViewerList.Start();
-            ViewerList_Tick(null, null);
-
-            statusUpdate();
-        }
-        
-        private void statusUpdate()
-        {
-            string StreamGame = TwitchAPI.GetChannel(Channel).Game;
-            string StreamStatus = TwitchAPI.GetChannel(Channel).Status;
-            Chatters AllChatters = ChatClient.GetChatters(Channel);
-            MainForm.ActiveForm.Text = "WizardsRWe - Viewers (" + Convert.ToString(ChatClient.GetChatterCount(Channel)) + ") - Game : "
-                + StreamGame + " - Status: " + StreamStatus;
-        }
-        #endregion
-
-        #region Xml Settings
-        private void UpdateXmlSettings()
-        {
-            //Create a new Config
-            XmlConfig XmlConfigUpdate = new XmlConfig();
-            //Twitch Settings
-            XmlConfigUpdate.StreamerName = StreamerName;
-            XmlConfigUpdate.StreamerOauth = StreamerOAuth;
-            XmlConfigUpdate.BotName = BotName;
-            XmlConfigUpdate.BotOauth = BotOauth;
-            XmlConfigUpdate.Channel = Channel;
-            XmlConfigUpdate.CommandChar = CommandChar;
-            //Deepbot Settings
-            XmlConfigUpdate.DeepBotIp = DeepbotIp;
-            XmlConfigUpdate.DeepBotAPI = DeepbotApi;
-            //Currency Settings
-            XmlConfigUpdate.Mod1 = Mod1;
-            XmlConfigUpdate.Mod2 = Mod2;
-            XmlConfigUpdate.Vip1 = Sub1;
-            XmlConfigUpdate.Vip2 = Sub2;
-            XmlConfigUpdate.Vip3 = Sub3;
-            XmlConfigUpdate.NormalViewer = NormalViewer;
-            XmlConfigUpdate.CheckCommand = CheckCommand;
-            XmlConfigUpdate.CheckCommandRep = CheckCommandRep;
-
-            XmlConfig.Serialize(FilesDir + "config.xml", XmlConfigUpdate);
-        }
-
-        private void LoadXmlSettings()
-        {
-            XmlConfig XMLConfigLoad = XmlConfig.DeSerialize(FilesDir + "config.xml");
-            StreamerName = XMLConfigLoad.StreamerName;
-            StreamerOAuth = XMLConfigLoad.StreamerOauth;
-            BotName = XMLConfigLoad.BotName;
-            BotOauth = XMLConfigLoad.BotOauth;
-            Channel = XMLConfigLoad.Channel;
-            CommandChar = XMLConfigLoad.CommandChar;
-            CheckCommand = XMLConfigLoad.CheckCommand;
-            CheckCommandRep = XMLConfigLoad.CheckCommandRep;
-            Mod1 = XMLConfigLoad.Mod1;
-            Mod2 = XMLConfigLoad.Mod2;
-            Sub1 = XMLConfigLoad.Vip1;
-            Sub2 = XMLConfigLoad.Vip2;
-            Sub3 = XMLConfigLoad.Vip3;
-            NormalViewer = XMLConfigLoad.NormalViewer;
-            DeepbotApi = XMLConfigLoad.DeepBotAPI;
-            DeepbotIp = XMLConfigLoad.DeepBotIp;
+            if(!File.Exists(DataDir + "Settings.sqlite"))
+            {
+                FileManagement.DataBase.CreateSettings();
+            }
             
-
+            
         }
+
+        private void Form1_shown(object sender, EventArgs e)
+        {
+            TwitchConnection();
+        }
+
+        #endregion
 
         private void UpdateTextBoxes()
         {
@@ -227,11 +169,345 @@ namespace ManaBot
             tbCommandChar.Text = Convert.ToString(CommandChar);
 
             //Points Settings
+            tbModLevel1.Text = Mod1;
+            tbMod2.Text = Mod2;
+            tbSub1.Text = Sub1;
+            tbSub2.Text = Sub2;
+            tbSub3.Text = Sub3;
+            tbCurrencyName.Text = CurrencyName;
+            tbNormalUser.Text = NormalViewer;
+            tbCurrencyCommand.Text = CheckCommand;
             tbCheckCommandRep.Text = CheckCommandRep;
+
             
         }
 
+        public static void TwitchConnection()
+        {
+            ConnectionCredentials StreamCreds = new ConnectionCredentials(MainForm.StreamerName, MainForm.StreamerOAuth);
+            ConnectionCredentials BotCreds = new ConnectionCredentials(MainForm.BotName, MainForm.BotOauth);
+            StreamClient = new TwitchClient(StreamCreds, MainForm.Channel);
+            BotClient = new TwitchClient(BotCreds, MainForm.Channel);
+            BotClient.OnJoinedChannel += BotJoinedChannel;
+            BotClient.OnMessageReceived += BotReciviedMessage;
+            BotClient.OnChatCommandReceived += BotCommandRecivied;
+            BotClient.AddChatCommandIdentifier(MainForm.CommandChar);
+            BotClient.AddWhisperCommandIdentifier(MainForm.CommandChar);
+            BotClient.OnUserJoined += UserJoined;
+            StreamClient.OnBeingHosted += HostAlert;
+            StreamClient.OnNewSubscriber += NewSub;
+            BotClient.OnExistingUsersDetected += CurrentUsers;
+            StreamClient.OnJoinedChannel += StreamerJoinedChannel;
+            StreamClient.OnMessageReceived += StreamReciviedMessage;
+            StreamClient.Connect();
+            BotClient.Connect();
+        }
 
+        #region Twitch Connection FUNctions
+        private static void BotJoinedChannel(object sender, OnJoinedChannelArgs e)
+        {
+            //BotClient.SendMessage("/me Merlin_Bot is here");
+
+        }
+
+        private static void UserJoined(object sender, OnUserJoinedArgs e)
+        {
+            Viewer.Add(e.Username);
+            Viewer.Sort();
+            foreach(string item in Viewer)
+            {
+                MainForm frm1 = new MainForm();
+                if (frm1.InvokeRequired) frm1.Invoke((Action)(() => frm1.lbViewerList.Items.Clear()));
+                if (frm1.InvokeRequired) frm1.Invoke((Action)(() => frm1.lbViewerList.Items.Add(item)));
+            }
+        }
+
+        private static void CurrentUsers(object sender, OnExistingUsersDetectedArgs e)
+        {
+            foreach(string user in e.Users)
+            {
+                Viewer.Add(user);
+                Viewer.Sort();
+                foreach (string item in Viewer)
+                {
+                    MainForm frm1 = new MainForm();
+                    if(frm1.InvokeRequired) frm1.Invoke((Action)(() => frm1.lbViewerList.Items.Clear()));
+
+                    if (frm1.InvokeRequired) frm1.Invoke((Action)(() => frm1.lbViewerList.Items.Add(item)));
+                }
+            }
+        }
+
+        private static void HostAlert(object sender, OnBeingHostedArgs e)
+        {
+            string Host = e.Channel;
+            int Viewer = e.Viewers;
+        }
+
+        private static void NewSub(object sender, OnNewSubscriberArgs e )
+        {
+            string Useranme = e.Subscriber.DisplayName;
+            string Tier = e.Subscriber.SubscriptionPlan.ToString();
+            string Months = e.Subscriber.Months.ToString();
+            string mess = e.Subscriber.ResubMessage;
+        }
+
+        private static void StreamerJoinedChannel(object sender, OnJoinedChannelArgs e)
+        {
+            //StreamClient.SendMessage("/me WizardsRWe is here");
+
+        }
+
+        private static void BotReciviedMessage(object sender, OnMessageReceivedArgs e)
+        {
+            
+            if (e.ChatMessage.Username.ToLower() == MainForm.StreamerName.ToLower())
+            {
+                string uname = e.ChatMessage.DisplayName;
+                string utype = Convert.ToString(e.ChatMessage.UserType).ToLower();
+                bool Subscriber = e.ChatMessage.IsSubscriber;
+                bool Broadcaster = false;
+                if (e.ChatMessage.Username == MainForm.StreamerName)
+                {
+                    Broadcaster = true;
+                }
+                bool Turbo = e.ChatMessage.IsTurbo;
+                string ChatMessage = e.ChatMessage.Message;
+                foreach (var emote in e.ChatMessage.EmoteSet.Emotes)
+                {
+                    var name = emote.Name;
+                    var start = emote.StartIndex;
+                    var url = emote.ImageUrl;
+                    ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"" + url + "\" + ></img>" + " ");
+                }
+                using (WebClient Client = new WebClient())
+                {
+                    string globalbttv = Client.DownloadString("https://api.betterttv.net/2/emotes");
+                    globalbttv = globalbttv.Replace(" ", "");
+                    string channelbttv = Client.DownloadString("https://api.betterttv.net/2/channels/wizardsrwe");
+
+                    string channelemotelist = channelbttv.Split(new string[] { "\"emotes\":[", "]}" }, StringSplitOptions.None)[1];
+                    string Globalemotelist = globalbttv.Split(new string[] { "\"emotes\":[", "" }, StringSplitOptions.None)[1];
+                    foreach (string item in channelemotelist.Split(new string[] { "{", "}" }, StringSplitOptions.None))
+                    {
+                        if (item != "," && item != " " && item != "")
+                        {
+
+                            string id = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[3];
+                            string name = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[11];
+                            string url = "cdn.betterttv.net/emote/" + id + "/1x";
+                            //Console.WriteLine("Name: " + name);
+                            ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"https://" + url + "\"></img>" + " ");
+
+                        }
+                    }
+                    foreach (string item in Globalemotelist.Split(new string[] { "{", "}" }, StringSplitOptions.None))
+                    {
+
+                        if (item != "," && item != " " && item != "" && item != "]" && !item.Contains("channels") && !item.Contains("imageType"))
+                        {
+                            string id = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[3];
+                            string name = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[7];
+                            string url = "cdn.betterttv.net/emote/" + id + "/1x";
+                            //Console.WriteLine("Name: " + name + " id: " + id);
+                            ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"https://" + url + "\"></img>" + " ");
+                        }
+                    }
+                }
+                WebChat(uname, utype, Subscriber, Broadcaster, ChatMessage);
+            }
+        }
+
+        private static void StreamerSentMessage(object sender, OnMessageSentArgs e)
+        {
+
+        }
+
+        private static void StreamReciviedMessage(object sender, OnMessageReceivedArgs e)
+        {
+
+            if (e.ChatMessage.Username.ToLower() == MainForm.StreamerName.ToLower())
+            {
+                return;
+            }
+            string uname = e.ChatMessage.DisplayName;
+            string utype = Convert.ToString(e.ChatMessage.UserType).ToLower();
+            bool Subscriber = e.ChatMessage.IsSubscriber;
+            bool Broadcaster = false;
+            if (e.ChatMessage.Username == MainForm.StreamerName)
+            {
+                Broadcaster = true;
+            }
+            bool Turbo = e.ChatMessage.IsTurbo;
+            string ChatMessage = e.ChatMessage.Message;
+            foreach (var emote in e.ChatMessage.EmoteSet.Emotes)
+            {
+                var name = emote.Name;
+                var start = emote.StartIndex;
+                var url = emote.ImageUrl;
+                ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"" + url + "\" + ></img>" + " ");
+            }
+            using (WebClient Client = new WebClient())
+            {
+                string globalbttv = Client.DownloadString("https://api.betterttv.net/2/emotes");
+                globalbttv = globalbttv.Replace(" ", "");
+                string channelbttv = Client.DownloadString("https://api.betterttv.net/2/channels/wizardsrwe");
+
+                string channelemotelist = channelbttv.Split(new string[] { "\"emotes\":[", "]}" }, StringSplitOptions.None)[1];
+                string Globalemotelist = globalbttv.Split(new string[] { "\"emotes\":[", "" }, StringSplitOptions.None)[1];
+                foreach (string item in channelemotelist.Split(new string[] { "{", "}" }, StringSplitOptions.None))
+                {
+                    if (item != "," && item != " " && item != "")
+                    {
+
+                        string id = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[3];
+                        string name = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[11];
+                        string url = "cdn.betterttv.net/emote/" + id + "/1x";
+                        //Console.WriteLine("Name: " + name);
+                        ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"https://" + url + "\"></img>" + " ");
+
+                    }
+                }
+                foreach (string item in Globalemotelist.Split(new string[] { "{", "}" }, StringSplitOptions.None))
+                {
+
+                    if (item != "," && item != " " && item != "" && item != "]" && !item.Contains("channels") && !item.Contains("imageType"))
+                    {
+                        string id = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[3];
+                        string name = item.Split(new string[] { "\"", "\"" }, StringSplitOptions.None)[7];
+                        string url = "cdn.betterttv.net/emote/" + id + "/1x";
+                        //Console.WriteLine("Name: " + name + " id: " + id);
+                        ChatMessage = ChatMessage.Replace(name, " " + "<img  class=\"tag\" src=\"https://" + url + "\"></img>" + " ");
+                    }
+                }
+            }
+            WebChat(uname, utype, Subscriber, Broadcaster, ChatMessage);
+        }
+
+        private static void BotCommandRecivied(object sender, OnChatCommandReceivedArgs e)
+        {
+            var ChatMessage = e.Command.ChatMessage;
+            
+            string Command = e.Command.Command;
+            List<string> args = e.Command.ArgumentsAsList;
+            string Display = ChatMessage.DisplayName;
+            string Uname = ChatMessage.Username;
+            bool IsArgs = false;
+            if (args.Count > 0) IsArgs = true;
+            Console.WriteLine(IsArgs.ToString());
+            string Utype = Convert.ToString(ChatMessage.UserType).ToLower();
+            Console.WriteLine("Command Prams: " + Command + " " +  args + " " + Display + " " + Uname + " " + Utype);
+            Twitch.TwitchCommands.PrebuiltCommands(Command, IsArgs , args, Uname, Display, Utype);
+            Console.WriteLine(e.Command.ChatMessage.Message);
+        }
+
+        public static void WebChat(string UserName, string UserType, bool SubStatus, bool Broadcaster, string ChatMessage)
+        {
+            string tagcast = "tag ";
+            string tagtype = "tag ";
+            string tagsub = "tag ";
+            string placeholder;
+            //User types moderator, global mod, admin, or staff
+            switch (UserType.ToLower())
+            {
+                case "broadcaster":
+                    tagtype += "moderator";
+                    break;
+                case "moderator":
+                    tagtype += "moderator";
+                    break;
+                case "global mod":
+                    tagtype += "global mod";
+                    break;
+                case "staff":
+                    tagtype += "staff";
+                    break;
+                case "admin":
+                    tagtype += "admin";
+                    break;
+                default:
+                    tagtype = "";
+                    break;
+
+            }
+            StringWriter textwriter = new StringWriter();
+            using (HtmlTextWriter writer = new HtmlTextWriter(textwriter))
+            {
+                #region ChatLine
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "chatline");
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                #region Badges
+                //Broadcaster
+                if (Broadcaster == true)
+                {
+                    tagcast += "caster";
+                    writer.AddAttribute(HtmlTextWriterAttribute.Class, tagcast);
+                    writer.RenderBeginTag(HtmlTextWriterTag.Span);
+                    writer.Write("&nbsp;");
+                    writer.RenderEndTag();
+                }
+                //UserType
+                if (tagtype != "")
+                {
+                    writer.AddAttribute(HtmlTextWriterAttribute.Class, tagtype);
+                    writer.RenderBeginTag(HtmlTextWriterTag.Span);
+                    writer.Write("&nbsp;");
+                    writer.RenderEndTag();
+                }
+                //Subscriber
+                if (SubStatus == true)
+                {
+                    tagsub += "subscriber";
+                    writer.AddAttribute(HtmlTextWriterAttribute.Class, tagsub);
+                    writer.RenderBeginTag(HtmlTextWriterTag.Span);
+                    writer.Write("&nbsp;");
+                    writer.RenderEndTag();
+                }
+                #endregion
+
+                #region Username
+                /* Difference between Username & DisplayName
+                 * username = bubbaswalter
+                 * DisplayName = BubbaSWalter
+                 */
+
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "username");
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                writer.Write(UserName + ": ");
+                writer.RenderEndTag();
+                #endregion
+
+                #region ChatMessage
+                writer.AddAttribute(HtmlTextWriterAttribute.Class, "message");
+                writer.RenderBeginTag(HtmlTextWriterTag.Div);
+                writer.Write(ChatMessage);
+                writer.RenderEndTag();
+                #endregion
+                writer.RenderEndTag();
+                #endregion
+            }
+
+            placeholder = textwriter.ToString();
+            List<string> lines = File.ReadAllLines(MainForm.WebDir + "chat.html").ToList();
+            int Totalline = lines.Count();
+            lines.Insert(Totalline - 3, placeholder + Environment.NewLine);
+            File.WriteAllLines(MainForm.WebDir + "chat.html", lines);
+            MainForm frm1 = new MainForm();
+            Console.WriteLine("MEsage Processed");
+            
+            if (chatBrowser.IsBrowserInitialized)
+            {
+                if (frm1.InvokeRequired)
+                {
+                    frm1.Invoke((Action)(() => chatBrowser.Reload(true)));
+                    frm1.Invoke((Action)(() => chatBrowser.Refresh()));
+                }
+                else
+                {
+                    chatBrowser.Reload();
+                }
+            }
+        }
 
         #endregion
 
@@ -242,18 +518,19 @@ namespace ManaBot
                 SendMessageFun();
             }
         }
+
         private void SendMessageFun()
         {
             string message = tbChatMessage.Text;
             if(cbMessageSender.SelectedIndex == 0)
             {
-                TwitchConnect.StreamClient.SendMessage(message);
+                StreamClient.SendMessage(message);
 
                 //TwitchConnect.WebChat(TwitchConnect.StreamClient.TwitchUsername, "broadcaster", true, true, message);
             }
             else
             {
-                TwitchConnect.BotClient.SendMessage(message);
+                BotClient.SendMessage(message);
             }
 
 
@@ -278,182 +555,9 @@ namespace ManaBot
 
         private void ViewerListUpdate()
         {
-            lbViewerList.Items.Clear();
-            Chatters AllChatters = ChatClient.GetChatters(Channel);
 
-
-            foreach (string user in AllChatters.Admins)
-            {
-                lbViewerList.Items.Add(user);
-            }
-            foreach (string user in AllChatters.Staff)
-            {
-                lbViewerList.Items.Add(user);
-            }
-            foreach (string user in AllChatters.GlobalMods)
-            {
-                lbViewerList.Items.Add(user);
-            }
-            foreach (string user in AllChatters.Moderators)
-            {
-                lbViewerList.Items.Add(user);
-            }
-            foreach (string user in AllChatters.Viewers)
-            {
-                lbViewerList.Items.Add(user);
-            }
-            statusUpdate();
         }
     }
 
-
-    public class XmlConfig
-    {
-        #region Twitch Vars
-        string _Streamername;
-        string _StreamerOauth;
-        string _BotName;
-        string _BotOauth;
-        string _Channel;
-        char _CommandChar;
-        #endregion
-
-        #region Currency Vars
-        string _Mod1;
-        string _Mod2;
-        string _Vip1;
-        string _Vip2;
-        string _Vip3;
-        string _NormalViewer;
-        string _CurrencyName;
-        string _CheckCommand;
-        string _CheckCommandRep;
-        #endregion
-
-        #region Deepbot Vars
-        string _DeepBotAPI;
-        string _DeepBotIp;
-        #endregion
-
-        #region Read & Write
-        public static void Serialize(string file, XmlConfig c)
-        {
-            System.Xml.Serialization.XmlSerializer xs =
-                new XmlSerializer(c.GetType());
-            StreamWriter write = File.CreateText(file);
-            xs.Serialize(write, c);
-            write.Flush();
-            write.Close();
-        }
-
-        public static XmlConfig DeSerialize(string file)
-        {
-            System.Xml.Serialization.XmlSerializer xs =
-                new XmlSerializer(typeof(XmlConfig));
-            StreamReader read = File.OpenText(file);
-            XmlConfig c = (XmlConfig)xs.Deserialize(read);
-            read.Close();
-            return c;
-        }
-        #endregion
-
-        #region Twitch Settings
-        public string StreamerName
-        {
-            get { return _Streamername; }
-            set { _Streamername = value; }
-        }
-
-        public string StreamerOauth
-        {
-            get { return _StreamerOauth; }
-            set { _StreamerOauth = value; }
-        }
-
-        public string BotName
-        {
-            get { return _BotName; }
-            set { _BotName = value; }
-        }
-
-        public string BotOauth
-        {
-            get { return _BotOauth; }
-            set { _BotOauth = value; }
-        }
-
-        public string Channel
-        {
-            get { return _Channel; }
-            set { _Channel = value; }
-        }
-        public char CommandChar
-        {
-            get { return _CommandChar; }
-            set { _CommandChar = value; }
-        }
-        #endregion
-
-        #region DeepBot Settings
-        public string DeepBotAPI
-        {
-            get { return _DeepBotAPI; }
-            set { _DeepBotAPI = value; }
-        }
-        public string DeepBotIp
-        {
-            get { return _DeepBotIp; }
-            set { _DeepBotIp = value; }
-        }
-        #endregion
-
-        #region Rank Settings
-        public string Mod1
-        {
-            get { return _Mod1; }
-            set { _Mod1 = value; }
-        }
-        public string Mod2
-        {
-            get { return _Mod2; }
-            set { _Mod2 = value; }
-        }
-        public string Vip1
-        {
-            get { return _Vip1; }
-            set { _Vip1 = value; }
-        }
-        public string Vip2
-        {
-            get { return _Vip2; }
-            set { _Vip2 = value; }
-        }
-        public string Vip3
-        {
-            get { return _Vip3; }
-            set { _Vip3 = value; }
-        }
-        public string NormalViewer
-        {
-            get { return _NormalViewer; }
-            set { _NormalViewer = value; }
-        }
-        public string CurrencyName
-        {
-            get { return _CurrencyName; }
-            set { _CurrencyName = value; }
-        }
-        public string CheckCommand
-        {
-            get { return _CheckCommand; }
-            set { _CheckCommand = value; }
-        }
-        public string CheckCommandRep
-        {
-            get { return _CheckCommandRep; }
-            set { _CheckCommandRep = value; }
-        }
-        #endregion
-
-    }
+    
 }

@@ -193,7 +193,7 @@ namespace ManaBot
             string Uname = ChatMessage.Username;
             string Utype = Convert.ToString(ChatMessage.UserType).ToLower();
             //Console.WriteLine("Command Prams: " + Command + " " +  CMess + " " + Display + " " + Uname + " " + Utype);
-            Twitch.TwitchCommands.PrebuiltCommands(Command, CMess, Uname, Display, Utype);
+            //Twitch.TwitchCommands.PrebuiltCommands(Command, args, Uname, Display, Utype);
             //Console.WriteLine(e.Command.ChatMessage.Message);
         }
 

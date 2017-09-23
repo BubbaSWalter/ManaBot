@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.ChatTab = new System.Windows.Forms.TabPage();
             this.scChatting = new System.Windows.Forms.SplitContainer();
@@ -39,8 +40,24 @@
             this.cbMessageSender = new System.Windows.Forms.ComboBox();
             this.SettingsTab = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.tbCurrencyName = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tbNormalUser = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbSub2 = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tbMod2 = new System.Windows.Forms.TextBox();
             this.tbCheckCommandRep = new System.Windows.Forms.RichTextBox();
+            this.tbCurrencyCommand = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.tbSub1 = new System.Windows.Forms.TextBox();
+            this.tbSub3 = new System.Windows.Forms.TextBox();
+            this.tbModLevel1 = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.tbDeepbotApi = new System.Windows.Forms.TextBox();
@@ -211,31 +228,175 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label16);
+            this.groupBox3.Controls.Add(this.label15);
+            this.groupBox3.Controls.Add(this.label14);
+            this.groupBox3.Controls.Add(this.tbCurrencyName);
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Controls.Add(this.label12);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.tbNormalUser);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.tbSub2);
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.tbMod2);
             this.groupBox3.Controls.Add(this.tbCheckCommandRep);
+            this.groupBox3.Controls.Add(this.tbCurrencyCommand);
             this.groupBox3.Controls.Add(this.label8);
-            this.groupBox3.Location = new System.Drawing.Point(507, 6);
+            this.groupBox3.Controls.Add(this.tbSub1);
+            this.groupBox3.Controls.Add(this.tbSub3);
+            this.groupBox3.Controls.Add(this.tbModLevel1);
+            this.groupBox3.Location = new System.Drawing.Point(3, 209);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(461, 343);
+            this.groupBox3.Size = new System.Drawing.Size(539, 279);
             this.groupBox3.TabIndex = 9;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "groupBox3";
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(282, 99);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(71, 13);
+            this.label16.TabIndex = 10;
+            this.label16.Text = "Normal User: ";
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(33, 99);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(59, 13);
+            this.label15.TabIndex = 10;
+            this.label15.Text = "Sub Tier3: ";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(297, 73);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(62, 13);
+            this.label14.TabIndex = 22;
+            this.label14.Text = "Sub Tier 2: ";
+            // 
+            // tbCurrencyName
+            // 
+            this.tbCurrencyName.Location = new System.Drawing.Point(98, 18);
+            this.tbCurrencyName.Name = "tbCurrencyName";
+            this.tbCurrencyName.Size = new System.Drawing.Size(144, 20);
+            this.tbCurrencyName.TabIndex = 16;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(33, 73);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(59, 13);
+            this.label13.TabIndex = 21;
+            this.label13.Text = "Sub Tier1: ";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(287, 47);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(72, 13);
+            this.label12.TabIndex = 20;
+            this.label12.Text = "Mod Level 2: ";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 21);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(86, 13);
+            this.label10.TabIndex = 18;
+            this.label10.Text = "Currency Name: ";
+            // 
+            // tbNormalUser
+            // 
+            this.tbNormalUser.Location = new System.Drawing.Point(365, 96);
+            this.tbNormalUser.Name = "tbNormalUser";
+            this.tbNormalUser.Size = new System.Drawing.Size(151, 20);
+            this.tbNormalUser.TabIndex = 17;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(20, 47);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(72, 13);
+            this.label9.TabIndex = 9;
+            this.label9.Text = "Mod Level 1: ";
+            // 
+            // tbSub2
+            // 
+            this.tbSub2.Location = new System.Drawing.Point(365, 70);
+            this.tbSub2.Name = "tbSub2";
+            this.tbSub2.Size = new System.Drawing.Size(151, 20);
+            this.tbSub2.TabIndex = 11;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(254, 21);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(105, 13);
+            this.label11.TabIndex = 19;
+            this.label11.Text = "Currency Command: ";
+            // 
+            // tbMod2
+            // 
+            this.tbMod2.Location = new System.Drawing.Point(365, 44);
+            this.tbMod2.Name = "tbMod2";
+            this.tbMod2.Size = new System.Drawing.Size(151, 20);
+            this.tbMod2.TabIndex = 12;
+            // 
             // tbCheckCommandRep
             // 
-            this.tbCheckCommandRep.Location = new System.Drawing.Point(18, 229);
+            this.tbCheckCommandRep.Location = new System.Drawing.Point(12, 152);
             this.tbCheckCommandRep.Name = "tbCheckCommandRep";
-            this.tbCheckCommandRep.Size = new System.Drawing.Size(449, 96);
+            this.tbCheckCommandRep.Size = new System.Drawing.Size(516, 96);
             this.tbCheckCommandRep.TabIndex = 7;
             this.tbCheckCommandRep.Text = "";
+            // 
+            // tbCurrencyCommand
+            // 
+            this.tbCurrencyCommand.Location = new System.Drawing.Point(365, 18);
+            this.tbCurrencyCommand.Name = "tbCurrencyCommand";
+            this.tbCurrencyCommand.Size = new System.Drawing.Size(151, 20);
+            this.tbCurrencyCommand.TabIndex = 13;
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(18, 206);
+            this.label8.Location = new System.Drawing.Point(186, 136);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(167, 13);
             this.label8.TabIndex = 8;
             this.label8.Text = "Response to the Points Command";
+            // 
+            // tbSub1
+            // 
+            this.tbSub1.Location = new System.Drawing.Point(98, 70);
+            this.tbSub1.Name = "tbSub1";
+            this.tbSub1.Size = new System.Drawing.Size(144, 20);
+            this.tbSub1.TabIndex = 15;
+            // 
+            // tbSub3
+            // 
+            this.tbSub3.Location = new System.Drawing.Point(98, 96);
+            this.tbSub3.Name = "tbSub3";
+            this.tbSub3.Size = new System.Drawing.Size(144, 20);
+            this.tbSub3.TabIndex = 14;
+            // 
+            // tbModLevel1
+            // 
+            this.tbModLevel1.Location = new System.Drawing.Point(98, 44);
+            this.tbModLevel1.Name = "tbModLevel1";
+            this.tbModLevel1.Size = new System.Drawing.Size(144, 20);
+            this.tbModLevel1.TabIndex = 10;
             // 
             // groupBox2
             // 
@@ -243,9 +404,9 @@
             this.groupBox2.Controls.Add(this.tbDeepbotApi);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.tbDeepbotIp);
-            this.groupBox2.Location = new System.Drawing.Point(219, 6);
+            this.groupBox2.Location = new System.Drawing.Point(260, 6);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(282, 157);
+            this.groupBox2.Size = new System.Drawing.Size(282, 202);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Deepbot Settings";
@@ -298,7 +459,7 @@
             this.groupBox1.Controls.Add(this.linkLabel1);
             this.groupBox1.Location = new System.Drawing.Point(3, 6);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(210, 202);
+            this.groupBox1.Size = new System.Drawing.Size(257, 202);
             this.groupBox1.TabIndex = 5;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Twitch Settings";
@@ -307,7 +468,7 @@
             // 
             this.tbCommandChar.Location = new System.Drawing.Point(98, 152);
             this.tbCommandChar.Name = "tbCommandChar";
-            this.tbCommandChar.Size = new System.Drawing.Size(100, 20);
+            this.tbCommandChar.Size = new System.Drawing.Size(144, 20);
             this.tbCommandChar.TabIndex = 8;
             // 
             // label7
@@ -323,7 +484,7 @@
             // 
             this.tbChannel.Location = new System.Drawing.Point(98, 123);
             this.tbChannel.Name = "tbChannel";
-            this.tbChannel.Size = new System.Drawing.Size(100, 20);
+            this.tbChannel.Size = new System.Drawing.Size(144, 20);
             this.tbChannel.TabIndex = 5;
             // 
             // tbBotOauth
@@ -331,7 +492,7 @@
             this.tbBotOauth.Location = new System.Drawing.Point(98, 97);
             this.tbBotOauth.Name = "tbBotOauth";
             this.tbBotOauth.PasswordChar = '*';
-            this.tbBotOauth.Size = new System.Drawing.Size(100, 20);
+            this.tbBotOauth.Size = new System.Drawing.Size(144, 20);
             this.tbBotOauth.TabIndex = 4;
             // 
             // label2
@@ -347,7 +508,7 @@
             // 
             this.tbBotName.Location = new System.Drawing.Point(98, 71);
             this.tbBotName.Name = "tbBotName";
-            this.tbBotName.Size = new System.Drawing.Size(100, 20);
+            this.tbBotName.Size = new System.Drawing.Size(144, 20);
             this.tbBotName.TabIndex = 2;
             // 
             // label4
@@ -364,14 +525,14 @@
             this.tbStreamOauth.Location = new System.Drawing.Point(98, 45);
             this.tbStreamOauth.Name = "tbStreamOauth";
             this.tbStreamOauth.PasswordChar = '*';
-            this.tbStreamOauth.Size = new System.Drawing.Size(100, 20);
+            this.tbStreamOauth.Size = new System.Drawing.Size(144, 20);
             this.tbStreamOauth.TabIndex = 1;
             // 
             // tbStreamName
             // 
             this.tbStreamName.Location = new System.Drawing.Point(98, 19);
             this.tbStreamName.Name = "tbStreamName";
-            this.tbStreamName.Size = new System.Drawing.Size(100, 20);
+            this.tbStreamName.Size = new System.Drawing.Size(144, 20);
             this.tbStreamName.TabIndex = 0;
             // 
             // label3
@@ -544,9 +705,10 @@
             this.ClientSize = new System.Drawing.Size(984, 561);
             this.Controls.Add(this.tabControl1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(1000, 600);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "ManaBot";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
@@ -620,6 +782,22 @@
         private System.Windows.Forms.TabPage QuotesTab;
         private System.Windows.Forms.Timer TimerViewerList;
         private System.Windows.Forms.Timer PointsGeneration;
+        private System.Windows.Forms.TextBox tbModLevel1;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox tbNormalUser;
+        private System.Windows.Forms.TextBox tbCurrencyName;
+        private System.Windows.Forms.TextBox tbSub1;
+        private System.Windows.Forms.TextBox tbSub3;
+        private System.Windows.Forms.TextBox tbCurrencyCommand;
+        private System.Windows.Forms.TextBox tbMod2;
+        private System.Windows.Forms.TextBox tbSub2;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label14;
     }
 }
 

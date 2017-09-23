@@ -3,14 +3,23 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta charset="utf-8" />
-        <meta http-equiv="refresh" content="10">
+        
         <link rel="stylesheet" type="text/css" href="chat.css">
         <title>ChatWindow</title>
+        <script type="text/javascript"
+                src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
         <script>
             function autoScrolling() {
                 window.scrollTo(0, document.body.scrollHeight);
+                
             }
-                setInterval(autoScrolling, 10);
+            function Reloading() {
+                window.location.reload();
+            }
+
+            setInterval(autoScrolling, 10);
+            setInterval(Reloading, 750);
+            
         </script>
     </head>
     <body>
